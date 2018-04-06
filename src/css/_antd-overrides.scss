@@ -1,0 +1,76 @@
+.ant-layout {
+  background: #fff !important;
+}
+
+.ant-back-top {
+  @media (max-width: 1100px) {
+    right: 25px !important;
+    bottom: 25px !important;
+  }
+}
+
+.ant-form-item-control {
+  display: flex;
+  flex-direction: column;
+}
+
+.trigger {
+  font-size: 16px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color .3s;
+}
+
+.ant-layout-header {
+  background: #ffffff !important;
+}
+
+.ant-modal-title {
+  text-align: center !important;
+}
+
+.vertical-center-modal {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.vertical-center-modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  width: 0;
+}
+
+.vertical-center-modal .ant-modal {
+  display: inline-block;
+  vertical-align: middle;
+  top: 0;
+  text-align: left;
+}
+
+.ant-upload.ant-upload-drag {
+  @media screen and (max-width: 768px) {
+    width: 90vw !important;
+  }
+  .ant-upload-btn {
+    @media screen and (max-width: 768px) {
+
+    }
+    @media screen and (max-width: 500px) {
+      padding: 0 !important;
+    }
+  }
+}
+
+.ant-upload-hint {
+  @media screen and (max-width: 768px) {
+    word-break: normal;
+    word-wrap: break-word;
+    text-overflow: clip;
+  }
+}
+
+.ant-modal {
+  margin: 0 !important;
+}

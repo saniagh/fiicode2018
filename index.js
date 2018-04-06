@@ -22,28 +22,6 @@ passport.use('signup', signupPassport);
 passport.use('login', loginPassport);
 app.use('/authentication', authRoutes);
 
-const authValidation = require('./res/middleware/auth-validation');
-
-// The middleware should be used for routes that require the user to be authenticated
-//app.use('/mock', authValidation);
-
-const settingsRoute = require('./res/handlers/settings.js');
-app.use('/settings', settingsRoute);
-
-const productsCategoriesRoute = require(
-    './res/handlers/products-categories.js');
-app.use('/products-categories', productsCategoriesRoute);
-
-const productRoute = require(
-    './res/handlers/product.js');
-app.use('/product', productRoute);
-
-const uploadRoute = require('./res/handlers/upload');
-app.use('/upload', uploadRoute);
-
-const ordersRoute = require('./res/handlers/orders');
-app.use('/order', ordersRoute);
-
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/res' + '/index' + '/index.html');
 });

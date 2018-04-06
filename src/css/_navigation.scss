@@ -1,0 +1,69 @@
+.top-navigation {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 1100px) {
+    height: 120px;
+  }
+}
+
+.site-logo {
+  @media (max-width: 1100px) {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    float: none;
+    max-height: 120px;
+    padding: 4px 0 4px 0;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+  }
+  @media (min-width: 1100px) {
+    img {
+      position: relative;
+      top: 16px;
+    }
+  }
+  float: left;
+}
+
+.my-drawer {
+  position: relative;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.my-drawer .am-drawer-sidebar {
+  background-color: #fff;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.am-navbar-left {
+  align-items: flex-start !important;
+  padding-top: 25px;
+}
+
+.am-navbar-title {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.my-drawer .am-drawer-sidebar .am-list {
+  width: 300px;
+  padding: 0;
+}
+
+.am-drawer-sidebar {
+  width: 60%;
+}
+
+.logo {
+  width: 120px;
+  height: 31px;
+  background: whitesmoke;
+  border-radius: 6px;
+  margin: 16px 24px 16px 0;
+  float: left;
+}
