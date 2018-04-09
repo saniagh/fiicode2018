@@ -1,0 +1,359 @@
+import React, { Component } from 'react';
+import { Card, Switch, Button, Form, Input, DatePicker, Collapse } from 'antd';
+const FormItem = Form.Item;
+const Panel = Collapse.Panel;
+
+import moment from 'moment';
+
+import Recaptcha from 'react-recaptcha';
+
+class CreateGroup extends Component {
+
+  disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current < moment().endOf('day');
+  };
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 6 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 14 },
+      },
+    };
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 14,
+          offset: 6,
+        },
+      },
+    };
+
+    const mediaQuery = window.matchMedia('(max-width: 1100px)');
+
+    return (
+        <Form className="group-form">
+          <Card noHovering={true}
+                bordered={false}
+                bodyStyle={{
+                  padding: mediaQuery.matches ?
+                      '20px 0 0 0' :
+                      '24px 32px 0 32px',
+                }}>
+            <Card noHovering={true}
+                  style={{
+                    width: mediaQuery.matches ?
+                        '90vw'
+                        :
+                        900,
+                    margin: '0 auto',
+                  }}
+                  bodyStyle={{
+                    padding: mediaQuery.matches ? 10 : '20px 0 0 0',
+                  }}>
+              <FormItem key="0"
+                        label="Group Name"
+                        {...formItemLayout}
+                        hasFeedback>
+                {getFieldDecorator('Group Name', {
+                  rules: [
+                    { required: true },
+                    { setFieldsValue: this.props.groupName },
+                  ],
+                })(
+                    <Input onChange={this.props.onGroupNameChange}/>,
+                )}
+              </FormItem>
+              <FormItem key="1"
+                        label="Group Motto (Optional)"
+                        {...formItemLayout}>
+                <Input value={this.props.groupMotto}
+                       onChange={this.props.onGroupMottoChange}/>
+              </FormItem>
+            </Card>
+          </Card>
+          <Card noHovering={true}
+                bordered={false}
+                bodyStyle={{
+                  padding: mediaQuery.matches ?
+                      '20px 0 0 0' :
+                      '24px 32px 0 32px',
+                }}>
+            <Card noHovering={true}
+                  style={{
+                    width: mediaQuery.matches ?
+                        '90vw'
+                        :
+                        900,
+                    margin: '0 auto',
+                  }}
+                  bodyStyle={{
+                    padding: mediaQuery.matches ? 10 : '20px 0 0 0',
+                  }}>
+              <FormItem key="2"
+                        label="E-mail Adress"
+                        {...formItemLayout}
+                        hasFeedback>
+                {getFieldDecorator('E-mail Adress', {
+                  rules: [
+                    { required: true },
+                    { setFieldsValue: this.props.ownerEmailAddress },
+                    { type: 'email' },
+                  ],
+                })(
+                    <Input onChange={this.props.onOwnerEmailAddressChange}/>,
+                )}
+              </FormItem>
+              <FormItem key="3"
+                        label="Full Name (Optional)"
+                        {...formItemLayout}>
+                <Input value={this.props.ownerFullName}
+                       onChange={this.props.onOwnerFullNameChange}/>
+              </FormItem>
+            </Card>
+          </Card>
+          <Card noHovering={true}
+                bordered={false}
+                bodyStyle={{
+                  padding: mediaQuery.matches ?
+                      '20px 0 0 0' :
+                      '24px 32px 0 32px',
+                }}>
+            <Card noHovering={true}
+                  style={{
+                    width: mediaQuery.matches ?
+                        '90vw'
+                        :
+                        900,
+                    margin: '0 auto',
+                  }}
+                  bodyStyle={{
+                    padding: mediaQuery.matches ? '10px 0 0 0' : 20,
+                  }}>
+              <span style={{
+                width: '100%',
+                margin: '0 auto',
+                padding: 10,
+                fontWeight: 500,
+                fontSize: 14,
+              }}>Allergies Opted For:</span>
+              {this.props.allergiesOptedFor.map((allergy, index) => {
+                return <FormItem key={index + 4}>
+                  <span style={{ marginTop: 10 }}>
+                    <Card noHovering={true}
+                          bordered={mediaQuery.matches ? false : true}
+                          style={{
+                            width: mediaQuery.matches ?
+                                '80vw'
+                                :
+                                600,
+                            margin: '0 auto',
+                          }}
+                          bodyStyle={{
+                            padding: mediaQuery.matches ?
+                                0 :
+                                '10px 10px 10px 10px',
+                          }}>
+                      <Collapse>
+                        <Panel header={allergy.species + ' (' +
+                        allergy.accession +
+                        ')'}>
+                          <p>
+                            Species: {allergy.species}
+                          </p>
+                          <p>
+                            Common: {allergy.common}
+                          </p>
+                          <p>
+                            IUISAllergen: {allergy.iuisAllergen}
+                          </p>
+                          <p>
+                            Type: {allergy.type}
+                          </p>
+                          <p>
+                            Group: {allergy.group}
+                          </p>
+                          <p>
+                            Length: {allergy.length}
+                          </p>
+                          <p>
+                            Accession:{' '}
+                            <a href={`https://www.ncbi.nlm.nih.gov/protein/${allergy.accession}`}>
+                              {allergy.accession}
+                            </a>
+                          </p>
+                          <p>
+                            GI#@ : {allergy.gi}
+                          </p>
+                          <p>
+                            First Version: {allergy.firstVersion}
+                          </p>
+                        </Panel>
+                      </Collapse>
+                      <div style={{ marginTop: 10 }}>
+                        <DatePicker
+                            showTime
+                            format="HH:mm:ss YYYY-MM-DD "
+                            placeholder="Select Alert Time"
+                            disabledDate={this.disabledDate}
+                            onOk={this.props.onSelectAlertTime}
+                            onChange={() => this.props.onChoosingDateIndexChange(
+                                index)}
+                        />
+                      </div>
+                    </Card>
+                  </span>
+                </FormItem>;
+              })}
+            </Card>
+          </Card>
+          <Card noHovering={true}
+                bordered={false}
+                bodyStyle={{
+                  padding: mediaQuery.matches ?
+                      '20px 0 0 0' :
+                      '24px 32px 0 32px',
+                }}>
+            <Card noHovering={true}
+                  style={{
+                    width: mediaQuery.matches ?
+                        '90vw'
+                        :
+                        900,
+                    margin: '0 auto',
+                  }}
+                  bodyStyle={{
+                    padding: 0,
+                  }}>
+              <FormItem>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  padding: 10,
+                  width: mediaQuery.matches ? 'auto' : 600,
+                  margin: mediaQuery.matches ? 0 : '0 auto',
+                }}>
+                  <span style={{
+                    fontWeight: 500,
+                    fontSize: 14,
+                    width: '70%',
+                  }}>Create share link:</span>
+                  <span style={{
+                    width: '30%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}>
+                    <Switch checked={this.props.shareLinkExists}
+                            onChange={this.props.onShareLinkExistsChange}/>
+                  </span>
+                </div>
+                {this.props.shareLinkExists ?
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      padding: 10,
+                      width: mediaQuery.matches ? 'auto' : 600,
+                      margin: mediaQuery.matches ? 0 : '0 auto',
+                    }}>
+                      <span style={{
+                        fontWeight: 500,
+                        fontSize: 14,
+                        width: '70%',
+                      }}>
+                        Should link expire (24 hours):
+                      </span>
+                      <span style={{
+                        width: '30%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}>
+                        <Switch checked={this.props.shareLinkExpires}
+                                onChange={this.props.onShareLinkExpiresChange}/>
+                      </span>
+                    </div>
+                    :
+                    null
+                }
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  padding: 10,
+                  width: mediaQuery.matches ? 'auto' : 600,
+                  margin: mediaQuery.matches ? 0 : '0 auto',
+                }}>
+                  <span style={{
+                    fontWeight: 500,
+                    fontSize: 14,
+                    width: '70%',
+                  }}>Enable Group Chat:</span>
+                  <span style={{
+                    width: '30%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}>
+                    <Switch checked={this.props.allowGroupChat}
+                            onChange={this.props.onAllowGroupChatChange}/>
+                  </span>
+                </div>
+              </FormItem>
+            </Card>
+          </Card>
+          <Card noHovering={true}
+                bordered={false}
+                bodyStyle={{
+                  padding: mediaQuery.matches ?
+                      '20px 0 20px 0' :
+                      '24px 32px 24px 32px',
+                }}>
+            <Card noHovering={true}
+                  style={{
+                    width: mediaQuery.matches ?
+                        '90vw'
+                        :
+                        900,
+                    margin: '0 auto',
+                  }}
+                  bodyStyle={{
+                    padding: 10,
+                  }}>
+              <Recaptcha sitekey="6Lfg51EUAAAAAM1H-hrlBewTJzDVQSjSrxTrPpD6"/>
+            </Card>
+          </Card>
+          <Card noHovering={true}
+                bordered={false}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  width: mediaQuery.matches ?
+                      '90vw'
+                      :
+                      900,
+                  margin: '0 auto',
+                }}
+                bodyStyle={{
+                  padding: 20,
+                }}>
+            <Button type="primary"
+                    size="large"
+                    onClick={this.props.onSaveGroup}>
+              Save and Create Group
+            </Button>
+          </Card>
+        </Form>
+    );
+  }
+}
+
+// verify recaptcha and save result in redux state
+
+export default Form.create()(CreateGroup);

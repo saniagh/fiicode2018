@@ -5,6 +5,9 @@ class Home extends Component {
     return (
         <div>
           Hi this is the home.
+          <button onClick={this.onSave}>
+            Save
+          </button>
         </div>
     );
   }

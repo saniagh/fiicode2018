@@ -259,7 +259,7 @@ class Navigation extends Component {
                         style={{
                           lineHeight: '48px',
                           position: 'relative',
-                          top: '15px',
+                          top: '52px',
                           float: 'right',
                         }}
                         selectedKeys={this.state.selectedKeys}
@@ -292,7 +292,7 @@ class Navigation extends Component {
                         style={{
                           lineHeight: '48px',
                           position: 'relative',
-                          top: '15px',
+                          top: '52px',
                           float: 'right',
                         }}
                         selectedKeys={this.state.selectedKeys}

@@ -26,6 +26,10 @@ export const HIDE_LOGIN_MODAL = 'HIDE_LOGIN_MODAL';
 export const SHOW_SIGNUP_MODAL = 'SHOW_SIGNUP_MODAL';
 export const HIDE_SIGNUP_MODAL = 'HIDE_SIGNUP_MODAL';
 
+// Allergies
+
+export const ON_CONFIRM_SELECTION = 'ON_CONFIRM_SELECTION';
+
 // User Reducer
 
 export const ON_GET_USER_CREDENTIALS = 'ON_GET_USER_CREDENTIALS';

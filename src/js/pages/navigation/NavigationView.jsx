@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import { notification } from 'antd';
 import { connect } from 'react-redux';
 import {
   onShowLoginModalAction,

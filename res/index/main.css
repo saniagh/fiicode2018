@@ -120,4 +120,12 @@
 .quill {
   max-width: 100%; }
 
+.group-form {
+  width: 100%;
+  margin: 0 auto; }
+
+.g-recaptcha {
+  display: flex;
+  justify-content: center; }
+
 /*# sourceMappingURL=main.css.map */
