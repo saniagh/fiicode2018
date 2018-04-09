@@ -1,0 +1,153 @@
+.main-container {
+  width: 1240px;
+  margin: 0 auto;
+  transition: all 300ms;
+  opacity: 1;
+
+  &.hidden {
+    opacity: 0;
+  }
+
+  @media (max-width: 1100px) {
+    width: 80%
+  }
+
+  @media (max-width: 500px) {
+    width: 95%;
+  }
+}
+
+.page-header {
+  font-size: 36px;
+  font-weight: 600;
+  padding: 20px 0;
+  width: 100%;
+  text-align: center;
+  clear: both;
+
+  &.border-top {
+    border-top: 1px solid #DCDCDC;
+  }
+}
+
+.allergies-capsules {
+  width: 33%;
+  float: left;
+  display: block;
+  height: 400px;
+
+  img {
+    width: 100%;
+    max-height: 250px;
+  }
+
+  @media (max-width: 1000px) {
+    width: 50%;
+  }
+
+  @media (max-width: 500px) {
+    width: 90%;
+    margin: 0 auto;
+    float: none;
+  }
+}
+
+.allergy-image-container {
+  width: 80%;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.allergy-header {
+  text-align: center;
+  width: 100%;
+  font-size: 24px;
+  margin: 15px 0 5px 0;
+  font-weight: 350;
+  a {
+    color: royalblue;
+    transition: all 400ms;
+
+    &:hover {
+      color: #888888
+    }
+  }
+}
+
+.allergy-paragraph {
+  font-size: 16px;
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+
+.confirm-selection-button-container {
+  padding: 0 10px 10px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.allergy-page-container {
+  clear: both;
+}
+
+.allergy-page-anchor-container {
+  width: 20%;
+  float: left;
+  display: flex;
+  justify-content: flex-start;
+  border-right: 1px solid #DCDCDC;
+
+  @media (max-width: 800px) {
+    width: 100%;
+    padding: 0 0 0 20px;
+    border: 0;
+  }
+}
+
+.allergy-page-content {
+  width: 70%;
+  float: left;
+  padding: 0 0 0 20px;
+
+  @media (max-width: 800px) {
+    width: 100%;
+    padding: 20px;
+  }
+}
+
+.allergy-section-title {
+  color: royalblue;
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.allergy-section-mid-title {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 10px 0 10px 0;
+}
+
+.allergy-section-paragraph {
+  font-size: 15px;
+  margin: 0 0 15px 0;
+}
+
+.allergy-section-list {
+  padding: 0 0 0 30px;
+  list-style-type: square;
+
+  li {
+    padding: 5px 0 5px 0;
+  }
+
+  li:last-child {
+    margin-bottom: 10px;
+  }
+}
+
+.allergy-create-group-button {
+  padding: 10px 10px 10px 0;
+  display: flex;
+  justify-content: flex-end;
+}

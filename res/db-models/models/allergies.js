@@ -28,6 +28,10 @@ const AllergiesSchema = new mongoose.Schema({
   firstVersion: {
     type: String,
   },
+  isGeneralAllergy: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('Allergies', AllergiesSchema);

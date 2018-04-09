@@ -1,7 +1,11 @@
 .top-navigation {
   background-color: #ffffff;
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  transition: all 500ms;
+  opacity: 1; }
+  .top-navigation.hidden {
+    opacity: 0; }
   @media (max-width: 1100px) {
     .top-navigation {
       height: 120px; } }
@@ -114,6 +118,9 @@
 .ant-modal {
   margin: 0 !important; }
 
+.ant-anchor-link {
+  line-height: 1.5 !important; }
+
 .ql-editor {
   min-height: 300px; }
 
@@ -127,5 +134,227 @@
 .g-recaptcha {
   display: flex;
   justify-content: center; }
+
+.group-name {
+  font-size: 36px;
+  font-weight: 300;
+  padding: 20px 0 0 0;
+  width: 100%;
+  text-align: center; }
+
+.group-motto {
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+  text-align: center;
+  width: 100%; }
+
+.group-middle {
+  width: 100%;
+  clear: both; }
+
+.group-middle-title {
+  font-size: 20px;
+  font-weight: 400;
+  text-align: left;
+  width: 100%;
+  padding: 10px 0; }
+
+.group-middle-alerts {
+  width: 50%;
+  float: left;
+  margin: 20px 0 20px 0;
+  padding: 10px; }
+  @media (max-width: 800px) {
+    .group-middle-alerts {
+      width: 80%;
+      float: none;
+      margin: 0 auto; } }
+
+.group-middle-participants {
+  width: 50%;
+  float: left;
+  margin: 20px 0 20px 0;
+  padding: 10px;
+  border: 1px solid #eeeeee; }
+  @media (max-width: 800px) {
+    .group-middle-participants {
+      width: 80%;
+      float: none;
+      margin: 0 auto; } }
+
+.group-middle-participants-list {
+  padding: 0 0 0 30px;
+  list-style-type: square; }
+  .group-middle-participants-list li {
+    padding: 5px 0 5px 0; }
+  .group-middle-participants-list li:last-child {
+    margin-bottom: 10px; }
+
+.disqus-container {
+  clear: both;
+  padding: 20px; }
+
+.progress-label {
+  padding: 10px 0 20px 0; }
+
+.progress-spacing {
+  padding: 10px 0 20px 0; }
+
+.my-group-spacing {
+  padding: 100px 0 190px 0;
+  display: flex;
+  justify-content: center; }
+  @media (max-width: 800px) {
+    .my-group-spacing {
+      padding: 40px 0; } }
+
+.my-group-input {
+  height: 57px;
+  border: 1px solid #eee;
+  width: 500px;
+  font-size: 24px;
+  text-indent: 24px; }
+  @media (max-width: 1000px) {
+    .my-group-input {
+      font-size: 18px; } }
+
+.my-group-button {
+  width: 108px;
+  height: 57px;
+  font-size: 18px;
+  line-height: 57px;
+  color: #fff;
+  background-color: royalblue;
+  text-transform: uppercase;
+  font-family: "Roboto Medium", sans-serif;
+  cursor: pointer;
+  border: 1px solid royalblue;
+  transition: all 200ms; }
+  @media (max-width: 1000px) {
+    .my-group-button {
+      font-size: 12px; } }
+  .my-group-button:active {
+    opacity: 0.6; }
+
+.main-container {
+  width: 1240px;
+  margin: 0 auto;
+  transition: all 300ms;
+  opacity: 1; }
+  .main-container.hidden {
+    opacity: 0; }
+  @media (max-width: 1100px) {
+    .main-container {
+      width: 80%; } }
+  @media (max-width: 500px) {
+    .main-container {
+      width: 95%; } }
+
+.page-header {
+  font-size: 36px;
+  font-weight: 600;
+  padding: 20px 0;
+  width: 100%;
+  text-align: center;
+  clear: both; }
+  .page-header.border-top {
+    border-top: 1px solid #DCDCDC; }
+
+.allergies-capsules {
+  width: 33%;
+  float: left;
+  display: block;
+  height: 400px; }
+  .allergies-capsules img {
+    width: 100%;
+    max-height: 250px; }
+  @media (max-width: 1000px) {
+    .allergies-capsules {
+      width: 50%; } }
+  @media (max-width: 500px) {
+    .allergies-capsules {
+      width: 90%;
+      margin: 0 auto;
+      float: none; } }
+
+.allergy-image-container {
+  width: 80%;
+  margin: 0 auto;
+  cursor: pointer; }
+
+.allergy-header {
+  text-align: center;
+  width: 100%;
+  font-size: 24px;
+  margin: 15px 0 5px 0;
+  font-weight: 350; }
+  .allergy-header a {
+    color: royalblue;
+    transition: all 400ms; }
+    .allergy-header a:hover {
+      color: #888888; }
+
+.allergy-paragraph {
+  font-size: 16px;
+  text-align: center;
+  margin: 0 0 10px 0; }
+
+.confirm-selection-button-container {
+  padding: 0 10px 10px 0;
+  display: flex;
+  justify-content: flex-end; }
+
+.allergy-page-container {
+  clear: both; }
+
+.allergy-page-anchor-container {
+  width: 20%;
+  float: left;
+  display: flex;
+  justify-content: flex-start;
+  border-right: 1px solid #DCDCDC; }
+  @media (max-width: 800px) {
+    .allergy-page-anchor-container {
+      width: 100%;
+      padding: 0 0 0 20px;
+      border: 0; } }
+
+.allergy-page-content {
+  width: 70%;
+  float: left;
+  padding: 0 0 0 20px; }
+  @media (max-width: 800px) {
+    .allergy-page-content {
+      width: 100%;
+      padding: 20px; } }
+
+.allergy-section-title {
+  color: royalblue;
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 10px; }
+
+.allergy-section-mid-title {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 10px 0 10px 0; }
+
+.allergy-section-paragraph {
+  font-size: 15px;
+  margin: 0 0 15px 0; }
+
+.allergy-section-list {
+  padding: 0 0 0 30px;
+  list-style-type: square; }
+  .allergy-section-list li {
+    padding: 5px 0 5px 0; }
+  .allergy-section-list li:last-child {
+    margin-bottom: 10px; }
+
+.allergy-create-group-button {
+  padding: 10px 10px 10px 0;
+  display: flex;
+  justify-content: flex-end; }
 
 /*# sourceMappingURL=main.css.map */

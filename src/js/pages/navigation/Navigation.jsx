@@ -23,11 +23,17 @@ class Navigation extends Component {
       mouseIsOn: '',
       overlayZIndex: -1,
       drawerZIndex: -1,
+      navClassName: 'top-navigation hidden',
     };
   }
 
   componentDidMount() {
     this.setState({ selectedKeys: [this.props.location.pathname] });
+    setTimeout(() => {
+      this.setState({
+        navClassName: 'top-navigation',
+      });
+    }, 100);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,7 +94,7 @@ class Navigation extends Component {
 
     return (
         mediaQuery.matches ?
-            <nav className="top-navigation">
+            <nav className={this.state.navClassName}>
               <NavBar
                   style={{
                     position: 'fixed',
@@ -104,7 +110,7 @@ class Navigation extends Component {
                               onClick={this.onCollapse}/>}>
                 <Link to={`/`}>
                   <div className="site-logo">
-                    <img src="logo.png"/>
+                    <img src="http://i.imgur.com/Ua80D2q.png"/>
                   </div>
                 </Link>
                 {Auth.isUserAuthenticated() ?
@@ -245,11 +251,17 @@ class Navigation extends Component {
               </NavBar>
             </nav>
             :
-            <nav className="top-navigation">
-              <Header style={{ height: 155 }}>
+            <nav className={this.state.navClassName}>
+              <Header style={{
+                height: 155,
+                width: 1240,
+                margin: '0 auto',
+                padding: 0,
+                borderBottom: '1px solid #DCDCDC',
+              }}>
                 <Link to={`/`}>
                   <div className="site-logo">
-                    <img src="logo.png"/>
+                    <img src="http://i.imgur.com/Ua80D2q.png"/>
                   </div>
                 </Link>
                 {Auth.isUserAuthenticated() ?

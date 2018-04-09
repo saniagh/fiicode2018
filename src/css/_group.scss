@@ -7,3 +7,129 @@
   display: flex;
   justify-content: center;
 }
+
+.group-name {
+  font-size: 36px;
+  font-weight: 300;
+  padding: 20px 0 0 0;
+  width: 100%;
+  text-align: center;
+}
+
+.group-motto {
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+  text-align: center;
+  width: 100%;
+}
+
+.group-middle {
+  width: 100%;
+  clear: both;
+}
+
+.group-middle-title {
+  font-size: 20px;
+  font-weight: 400;
+  text-align: left;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.group-middle-alerts {
+  width: 50%;
+  float: left;
+  margin: 20px 0 20px 0;
+  padding: 10px;
+
+  @media (max-width: 800px) {
+    width: 80%;
+    float: none;
+    margin: 0 auto;
+  }
+}
+
+.group-middle-participants {
+  width: 50%;
+  float: left;
+  margin: 20px 0 20px 0;
+  padding: 10px;
+  border: 1px solid #eeeeee;
+
+  @media (max-width: 800px) {
+    width: 80%;
+    float: none;
+    margin: 0 auto;
+  }
+}
+
+.group-middle-participants-list {
+  padding: 0 0 0 30px;
+  list-style-type: square;
+
+  li {
+    padding: 5px 0 5px 0;
+  }
+
+  li:last-child {
+    margin-bottom: 10px;
+  }
+}
+
+.disqus-container {
+  clear: both;
+  padding: 20px;
+}
+
+.progress-label {
+  padding: 10px 0 20px 0;
+}
+
+.progress-spacing {
+  padding: 10px 0 20px 0;
+}
+
+.my-group-spacing {
+  padding: 100px 0 190px 0;
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 800px) {
+    padding: 40px 0;
+  }
+}
+
+.my-group-input {
+  height: 57px;
+  border: 1px solid #eee;
+  width: 500px;
+  font-size: 24px;
+  text-indent: 24px;
+
+  @media (max-width: 1000px) {
+    font-size: 18px;
+  }
+}
+
+.my-group-button {
+  width: 108px;
+  height: 57px;
+  font-size: 18px;
+  line-height: 57px;
+  color: #fff;
+  background-color: royalblue;
+  text-transform: uppercase;
+  font-family: "Roboto Medium", sans-serif;
+  cursor: pointer;
+  border: 1px solid royalblue;
+  transition: all 200ms;
+
+  @media (max-width: 1000px) {
+    font-size: 12px;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+}

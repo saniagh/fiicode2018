@@ -79,8 +79,9 @@ class BaseApp extends Component {
     }
   }
 
-  componentWillReceiveProps() {
-    smoothScroll();
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.pathname.indexOf('/allergies/') === -1)
+      smoothScroll();
   }
 
   render() {

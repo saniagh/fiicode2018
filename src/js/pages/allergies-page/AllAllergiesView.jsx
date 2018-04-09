@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { notification } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Route } from 'react-router-dom';
 
 import {
   onConfirmSelectionAction,
 } from './allergiesActions.js';
 
 import AllAllergies from './AllAllergies.jsx';
+
+import FoodAllergyView from './allergies/FoodAllergyView.jsx';
 
 let createHandlers = function (dispatch) {
   let onConfirmSelection = function (selected, allergies) {
@@ -27,8 +30,10 @@ class AllAllergiesView extends Component {
 
     this.state = {
       fetchingAllergies: false,
+      allAllergies: [],
       allergies: [],
       selected: [],
+      foodAllergy: {},
     };
   }
 
@@ -37,10 +42,24 @@ class AllAllergiesView extends Component {
       method: 'get',
       url: '/allergies/get-allergies',
     }).then((res) => {
+      let allergies = res.data.allergies;
+      let length = allergies.length;
+      let newAllergies = [];
+
+      for (let i = 0; i < length; i++) {
+        if (allergies[i].isGeneralAllergy === false)
+          newAllergies.push(allergies[i]);
+        if (allergies[i].type === 'Food Allergy')
+          this.setState({
+            foodAllergy: allergies[i],
+          });
+      }
+
       this.setState({
-        allergies: res.data.allergies,
+        allergies: newAllergies,
+        allAllergies: res.data.allergies,
       });
-    }).catch(() => {
+    }).catch((err) => {
     });
   }
 
@@ -76,11 +95,26 @@ class AllAllergiesView extends Component {
     }
   };
 
+  onConfirmSelectionOneAllergy = (allergy) => {
+    this.handlers.onConfirmSelection(allergy, this.state.allAllergies);
+  };
+
   render() {
-    return <AllAllergies allergies={this.state.allergies}
-                         selected={this.state.selected}
-                         onSelect={this.onSelect}
-                         onConfirmSelection={this.onConfirmSelection}/>;
+    return (
+        <div>
+          <Route exact path={`/allergies`} render={() => {
+            return <AllAllergies allergies={this.state.allergies}
+                                 selected={this.state.selected}
+                                 onSelect={this.onSelect}
+                                 onConfirmSelection={this.onConfirmSelection}/>;
+          }}/>
+          <Route exact path={`/allergies/food-allergy`} render={() => {
+            return <FoodAllergyView foodAllergy={this.state.foodAllergy}
+                                    onSelect={this.onSelect}
+                                    onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;
+          }}/>
+        </div>
+    );
   }
 }
 

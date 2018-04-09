@@ -1,6 +1,7 @@
 const Allergies = require('mongoose').model('Allergies');
 const Group = require('mongoose').model('Group');
 const express = require('express');
+const uuid = require('uuid');
 
 const router = new express.Router();
 
@@ -56,14 +57,22 @@ router.post('/save-group', createGroupFormValidation, (req, res) => {
 
   // modify here for when the app is online
 
-  let currentTime = Date.now();
-  let expireTime = currentTime + 86400000;
+  let expireTime = '';
+  let shareLink = '';
 
-  let shareLink = 'localhost/group-invite/' + currentTime;
+  if (req.body.shareLinkExists === 'true') {
+    let currentTime = Date.now();
+
+    if (req.body.shareLinkExpires === 'true')
+      expireTime = currentTime + 86400000;
+
+    shareLink = 'localhost/group-invite/' + uuid.v4();
+  }
 
   const groupData = {
     groupName: req.body.groupName,
     groupMotto: req.body.groupMotto,
+    groupMessage: req.body.groupMessage,
     allergiesOptedFor: JSON.parse(req.body.allergiesOptedFor),
     shareLinkEnabled: req.body.shareLinkExists,
     shareLink: req.body.shareLinkExists ? shareLink : '',
@@ -72,6 +81,7 @@ router.post('/save-group', createGroupFormValidation, (req, res) => {
     ownerEmailAddress: req.body.ownerEmailAddress,
     ownerFullName: req.body.ownerFullName,
     participants: JSON.parse(req.body.participants),
+    passCode: uuid.v4(),
   };
 
   const newGroup = new Group(groupData);
@@ -84,6 +94,50 @@ router.post('/save-group', createGroupFormValidation, (req, res) => {
       success: true,
     });
   });
+});
+
+router.post('/get-group', (req, res) => {
+  Group.find(
+      { $and: [{ passCode: req.body.passCode }, { _id: req.body.groupId }] },
+      (err, group) => {
+        if (err) {
+          return res.status(400).json({
+            message: 'Internal error',
+          });
+        }
+
+        if (group.length === 0) {
+          return res.status(404).json({
+            message: 'Group not found',
+          });
+        }
+
+        return res.json({
+          group: group,
+          success: true,
+        });
+      });
+});
+
+router.get('/save-custom-allergy', (req, res) => {
+  const allergyData = {
+    species: '',
+    iuisAllergen: '',
+    type: 'Food Allergy',
+    group: '',
+    length: '',
+    accession: '',
+    gi: '',
+    firstVersion: '',
+    isGeneralAllergy: true,
+  };
+
+  const newAllergy = new Allergies(allergyData);
+  newAllergy.save((err) => {
+  });
+
+  return res.status(200);
+
 });
 
 module.exports = router;

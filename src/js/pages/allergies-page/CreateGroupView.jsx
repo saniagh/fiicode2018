@@ -16,6 +16,7 @@ class CreateGroupView extends Component {
     this.state = {
       groupName: '',
       groupMotto: '',
+      groupMessage: '',
       allergiesOptedFor: [],
       shareLinkExists: true,
       shareLinkExpires: false,
@@ -24,6 +25,7 @@ class CreateGroupView extends Component {
       ownerFullName: '',
       choosingDateForIndex: -1,
       savingGroup: false,
+      savedGroup: false,
     };
   }
 
@@ -65,6 +67,12 @@ class CreateGroupView extends Component {
   onGroupMottoChange = (e) => {
     this.setState({
       groupMotto: e.target.value,
+    });
+  };
+
+  onGroupMessageChange = (e) => {
+    this.setState({
+      groupMessage: e.target.value,
     });
   };
 
@@ -145,6 +153,7 @@ class CreateGroupView extends Component {
         data: qs.stringify({
           groupName: this.state.groupName,
           groupMotto: this.state.groupMotto,
+          groupMessage: this.state.groupMessage,
           allergiesOptedFor: JSON.stringify(this.state.allergiesOptedFor),
           ownerEmailAddress: this.state.ownerEmailAddress,
           ownerFullName: this.state.ownerFullName,
@@ -156,11 +165,34 @@ class CreateGroupView extends Component {
       }).then((res) => {
         this.setState({
           savingGroup: false,
+          savedGroup: true,
         });
-      }).catch((err) => {
+        notification.success({
+          message: 'Success!',
+          description: 'You will be redirected shortly!',
+        });
+
+        // should redirect to the newly created group
+        // make a progress visual maybe
+        setTimeout(() => {
+          this.context.router.history.push('/allergies');
+        }, 3000);
+      }).catch(() => {
         this.setState({
           savingGroup: false,
         });
+        notification.error({
+          message: 'Oops!',
+          description: 'Have you filled all required fields?',
+        });
+      });
+    } else {
+      this.setState({
+        savingGroup: false,
+      });
+      notification.error({
+        message: 'Select dates!',
+        description: 'Make sure you select a date for when you want to receive an email as a reminder.',
       });
     }
   };
@@ -170,6 +202,7 @@ class CreateGroupView extends Component {
   render() {
     return <CreateGroup groupChat={this.state.groupChat}
                         groupMotto={this.state.groupMotto}
+                        groupMessage={this.state.groupMessage}
                         allergiesOptedFor={this.state.allergiesOptedFor}
                         shareLinkExists={this.state.shareLinkExists}
                         shareLinkExpires={this.state.shareLinkExpires}
@@ -179,6 +212,7 @@ class CreateGroupView extends Component {
                         savingGroup={this.state.savingGroup}
                         onGroupNameChange={this.onGroupNameChange}
                         onGroupMottoChange={this.onGroupMottoChange}
+                        onGroupMessageChange={this.onGroupMessageChange}
                         onSelectAlertTime={this.onSelectAlertTime}
                         onShareLinkExistsChange={this.onShareLinkExistsChange}
                         onShareLinkExpiresChange={this.onShareLinkExpiresChange}

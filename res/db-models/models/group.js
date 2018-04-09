@@ -7,6 +7,9 @@ const GroupSchema = new mongoose.Schema({
   groupMotto: {
     type: String,
   },
+  groupMessage: {
+    type: String,
+  },
   allergiesOptedFor: {
     type: Array,
   },
@@ -30,6 +33,9 @@ const GroupSchema = new mongoose.Schema({
   },
   participants: {
     type: Array,
+  },
+  passCode: {
+    type: String,
   },
 });
 
