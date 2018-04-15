@@ -57,11 +57,28 @@
   padding: 10px;
   border: 1px solid #eeeeee;
 
+  &.share-link {
+    display: flex;
+  }
+
   @media (max-width: 800px) {
     width: 80%;
     float: none;
     margin: 0 auto;
   }
+}
+
+.share-link-paragraph {
+  font-size: 12px;
+  padding: 0 0 0 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.alert-sent {
+  color: darkgreen;
+  padding: 0 0 10px 0;
 }
 
 .group-middle-participants-list {
@@ -132,4 +149,15 @@
   &:active {
     opacity: 0.6;
   }
+}
+
+.group-invite-form {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.group-invite-form-item {
+  display: flex;
+  flex: 1;
 }

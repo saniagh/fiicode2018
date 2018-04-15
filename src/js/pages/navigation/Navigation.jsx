@@ -154,15 +154,11 @@ class Navigation extends Component {
                                 <Icon type="home"/>
                                 <span>Home</span>
                               </MenuItem>
-                              {this.props.isAdmin ?
-                                  <MenuItem key="/control-panel">
-                                    <Link to={`/control-panel`}/>
-                                    <Icon type="skin"/>
-                                    <span>Allergies Management</span>
-                                  </MenuItem>
-                                  :
-                                  null
-                              }
+                              <MenuItem key="/allergies">
+                                <Link to={`/allergies`}/>
+                                <Icon type="skin"/>
+                                <span>Allergies</span>
+                              </MenuItem>
                               <MenuItem key="logout">
                                 <Icon type="logout"/>
                                 <span>Logout</span>
@@ -283,15 +279,11 @@ class Navigation extends Component {
                         <Icon type="home"/>
                         <span>Home</span>
                       </MenuItem>
-                      {this.props.isAdmin ?
-                          <MenuItem key="/control-panel">
-                            <Link to={`/control-panel`}/>
-                            <Icon type="appstore"/>
-                            <span>Control Panel</span>
-                          </MenuItem>
-                          :
-                          null
-                      }
+                      <MenuItem key="/allergies">
+                        <Link to={`/allergies`}/>
+                        <Icon type="skin"/>
+                        <span>Allergies</span>
+                      </MenuItem>
                       <MenuItem key="logout">
                         <Icon type="logout"/>
                         <span>Logout</span>

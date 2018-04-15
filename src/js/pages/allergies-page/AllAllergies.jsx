@@ -305,8 +305,10 @@ class AllAllergies extends Component {
                 }
               </Button>
             </div>
-            <ReactTable data={this.props.allergies}
-                        columns={columns}/>
+            <div className="react-table-container-padding">
+              <ReactTable data={this.props.allergies}
+                          columns={columns}/>
+            </div>
           </div>
         </div>
     );

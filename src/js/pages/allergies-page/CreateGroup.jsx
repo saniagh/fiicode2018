@@ -52,18 +52,6 @@ class CreateGroup extends Component {
         sm: { span: 14 },
       },
     };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 14,
-          offset: 6,
-        },
-      },
-    };
 
     const mediaQuery = window.matchMedia('(max-width: 1100px)');
 

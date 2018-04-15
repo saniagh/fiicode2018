@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Collapse, Progress } from 'antd';
+import { Collapse, Progress, Button, notification } from 'antd';
 import Countdown from 'react-countdown-now';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 const Panel = Collapse.Panel;
+
+import Auth from '../../modules/Auth.js';
 
 class Group extends Component {
   constructor(props) {
@@ -29,6 +32,17 @@ class Group extends Component {
     }
 
   }
+
+  getTimeUntilShareLinkExpires = () => {
+    if (this.props.shareLinkExpiresAt) {
+      let newDate = new Date(this.props.group.shareLinkExpiresAt);
+      let currentDate = new Date();
+
+      let timeDiff = newDate.getTime() - currentDate.getTime();
+      return Math.ceil(timeDiff / (1000 * 3600 * 24));
+    } else return 1;
+
+  };
 
   // work a little on progress percentage param. ( when will it say DONE ? )
 
@@ -59,8 +73,7 @@ class Group extends Component {
                 let newDate = new Date(allergy.alertTime);
                 let currentDate = new Date();
 
-                let timeDiff = Math.abs(
-                    newDate.getTime() - currentDate.getTime());
+                let timeDiff = newDate.getTime() - currentDate.getTime();
                 let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
                 return <span key={index}>
@@ -81,7 +94,9 @@ class Group extends Component {
                                                 percent => `${diffDays} Days`}/>
                                   </div>
                                   :
-                                  null
+                                  <div className="alert-sent">
+                                    Alert has been sent!
+                                  </div>
                               }
                               <p>
                                 Type: {allergy.type}
@@ -108,7 +123,9 @@ class Group extends Component {
                                                 percent => `${diffDays} Days`}/>
                                   </div>
                                   :
-                                  null
+                                  <div className="alert-sent">
+                                    Alert has been sent!
+                                  </div>
                               }
 
                               <p>
@@ -166,6 +183,29 @@ class Group extends Component {
                 })}
               </ul>
             </div>
+
+            {Auth.isUserAuthenticated && group.shareLinkEnabled &&
+            this.getTimeUntilShareLinkExpires() >= 0 &&
+            this.props.ownerEmailAddress &&
+            group.ownerEmailAddress === this.props.ownerEmailAddress ?
+                <div className="group-middle-participants share-link">
+                  <CopyToClipboard text={group.shareLink}
+                                   onCopy={() => {
+                                     notification.success({
+                                       message: 'Copied!',
+                                       description: 'The link has been copied to the clipboard.',
+                                     });
+                                   }}>
+                    <Button>
+                      Copy share link
+                    </Button>
+                  </CopyToClipboard>
+                  <p className="share-link-paragraph">
+                    {group.shareLink}
+                  </p>
+                </div>
+                :
+                null}
           </div>
           {group.allowGroupChat ?
               <div className="disqus-container">

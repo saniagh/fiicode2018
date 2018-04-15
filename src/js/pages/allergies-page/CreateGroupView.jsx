@@ -175,7 +175,8 @@ class CreateGroupView extends Component {
         // should redirect to the newly created group
         // make a progress visual maybe
         setTimeout(() => {
-          this.context.router.history.push('/allergies');
+          this.props.history.push(
+              `/groups/verified/${res.data.groupId}&${res.data.groupPassCode}`);
         }, 3000);
       }).catch(() => {
         this.setState({

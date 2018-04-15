@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { notification, Card } from 'antd';
 import axios from 'axios';
 import qs from 'qs';
@@ -56,6 +57,7 @@ class GroupView extends Component {
     if (this.state.fetchedGroup === true)
       return <Group pathname={this.props.location.pathname}
                     fetchingGroup={this.state.fetchingGroup}
+                    ownerEmailAddress={this.props.email}
                     group={this.state.group}/>;
     else return <Card loading={true}
                       noHovering={true}
@@ -63,4 +65,10 @@ class GroupView extends Component {
   }
 }
 
-export default GroupView;
+const mapStateToProps = (state) => {
+  return {
+    email: state.userReducer.email,
+  };
+};
+
+export default connect(mapStateToProps)(GroupView);
