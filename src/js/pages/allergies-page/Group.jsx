@@ -30,21 +30,19 @@ class Group extends Component {
       s.setAttribute('data-timestamp', +new Date());
       (d.head || d.body).appendChild(s);
     }
-
   }
 
   getTimeUntilShareLinkExpires = () => {
-    if (this.props.shareLinkExpiresAt) {
-      let newDate = new Date(this.props.group.shareLinkExpiresAt);
+    if (this.props.group.shareLinkExpiresAt) {
+      let newDate = new Date(parseInt(this.props.group.shareLinkExpiresAt));
       let currentDate = new Date();
 
       let timeDiff = newDate.getTime() - currentDate.getTime();
+
       return Math.ceil(timeDiff / (1000 * 3600 * 24));
     } else return 1;
 
   };
-
-  // work a little on progress percentage param. ( when will it say DONE ? )
 
   render() {
 
@@ -205,7 +203,20 @@ class Group extends Component {
                   </p>
                 </div>
                 :
-                null}
+                <div className="group-middle-participants share-link"
+                     style={{
+                       display: Auth.isUserAuthenticated() &&
+                       group.ownerEmailAddress ===
+                       this.props.ownerEmailAddress ? 'flex' : 'none',
+                     }}>
+                  <Button onClick={this.props.onRequestNewShareLink}
+                          loading={this.props.fetchingGroup}>
+                    Request a share link
+                  </Button>
+                  <p className="share-link-paragraph">
+                    It will expire in 24 hours.
+                  </p>
+                </div>}
           </div>
           {group.allowGroupChat ?
               <div className="disqus-container">

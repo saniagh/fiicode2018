@@ -6,6 +6,7 @@ import AllAllergiesView from './allergies-page/AllAllergiesView.jsx';
 import CreateGroupView from './allergies-page/CreateGroupView.jsx';
 import GroupAccessView from './allergies-page/GroupAccessView.jsx';
 import GroupInviteView from './allergies-page/GroupInviteView.jsx';
+import MyGroupsView from './allergies-page/MyGroupsView.jsx';
 
 // TODO a not found page.
 
@@ -17,6 +18,7 @@ const Routes = withRouter(() => {
     <Route path={`/create-group`} component={CreateGroupView}/>
     <Route path={'/groups/:groupId'} component={GroupAccessView}/>
     <Route path={'/group-invite/:shareLink'} component={GroupInviteView}/>
+    <Route path={'/my-groups'} component={MyGroupsView}/>
     <Route path={'*'} component={HomeView}/>
   </Switch>;
 

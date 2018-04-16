@@ -8,6 +8,7 @@ class GroupInvite extends Component {
 
     this.state = {
       mainClassName: 'main-container hidden',
+      disabledField: false,
     };
   }
 
@@ -17,6 +18,14 @@ class GroupInvite extends Component {
         mainClassName: 'main-container',
       });
     }, 100);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.email) {
+      this.setState({
+        disabledField: true,
+      });
+    }
   }
 
   render() {
@@ -60,16 +69,11 @@ class GroupInvite extends Component {
                 <FormItem key="0"
                           label="E-mail Adress"
                           {...formItemLayout}
-                          hasFeedback>
-                  {getFieldDecorator('E-mail Adress', {
-                    rules: [
-                      { required: true },
-                      { setFieldsValue: this.props.emailAddress },
-                      { type: 'email' },
-                    ],
-                  })(
-                      <Input onChange={this.props.onEmailAddressChange}/>,
-                  )}
+                          required={true}>
+                  <Input htmlType="email"
+                         disabled={this.state.disabledField}
+                         value={this.props.emailAddress}
+                         onChange={this.props.onEmailAddressChange}/>
                 </FormItem>
                 <FormItem key="1"
                           label="Full name"
@@ -84,7 +88,8 @@ class GroupInvite extends Component {
                             maxWidth: 250,
                             padding: '0 0 10px 0',
                           }}>
-                  <Button onClick={this.props.onEnterGroup}>
+                  <Button onClick={this.props.onEnterGroup}
+                          loading={this.props.enteringGroup}>
                     Enter Group
                   </Button>
                 </FormItem>

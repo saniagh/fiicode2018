@@ -37,7 +37,7 @@ class CreateGroup extends Component {
 
   disabledDate = (current) => {
     // Can not select days before today and today
-    return current && current < moment().endOf('day');
+    return current && current < moment().startOf('day');
   };
 
   render() {
@@ -130,16 +130,9 @@ class CreateGroup extends Component {
                 <FormItem key="3"
                           label="E-mail Adress"
                           {...formItemLayout}
-                          hasFeedback>
-                  {getFieldDecorator('E-mail Adress', {
-                    rules: [
-                      { required: true },
-                      { setFieldsValue: this.props.ownerEmailAddress },
-                      { type: 'email' },
-                    ],
-                  })(
-                      <Input onChange={this.props.onOwnerEmailAddressChange}/>,
-                  )}
+                          required={true}>
+                  <Input value={this.props.ownerEmailAddress}
+                         onChange={this.props.onOwnerEmailAddressChange}/>
                 </FormItem>
                 <FormItem key="4"
                           label="Full Name (Optional)"

@@ -4,6 +4,8 @@ import { notification, Card } from 'antd';
 import axios from 'axios';
 import qs from 'qs';
 
+import Auth from '../../modules/Auth.js';
+
 import Group from './Group.jsx';
 
 class GroupView extends Component {
@@ -52,13 +54,47 @@ class GroupView extends Component {
     }
   }
 
+  onRequestNewShareLink = () => {
+
+    this.setState({
+      fetchingGroup: true,
+    });
+
+    axios({
+      method: 'post',
+      url: '/allergies/request-share-link',
+      headers: {
+        'Authorization': `bearer ${Auth.getToken()}`,
+        'Content-type': 'application/x-www-form-urlencoded',
+      },
+      data: qs.stringify({
+        groupId: this.props.match.params.groupId,
+      }),
+    }).then((res) => {
+      this.setState({
+        group: res.data.group[0],
+        fetchingGroup: false,
+        fetchedGroup: true,
+      });
+    }).catch(() => {
+      notification.error({
+        message: 'Oops!',
+        description: 'Something went wrong...',
+      });
+      this.setState({
+        fetchingGroup: false,
+      });
+    });
+  };
+
   render() {
 
     if (this.state.fetchedGroup === true)
       return <Group pathname={this.props.location.pathname}
                     fetchingGroup={this.state.fetchingGroup}
                     ownerEmailAddress={this.props.email}
-                    group={this.state.group}/>;
+                    group={this.state.group}
+                    onRequestNewShareLink={this.onRequestNewShareLink}/>;
     else return <Card loading={true}
                       noHovering={true}
                       bordered={false}></Card>;

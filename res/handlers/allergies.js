@@ -1,5 +1,6 @@
 const Allergies = require('mongoose').model('Allergies');
 const Group = require('mongoose').model('Group');
+const User = require('mongoose').model('User');
 const express = require('express');
 const uuid = require('uuid');
 
@@ -11,6 +12,8 @@ const createGroupFormValidation = require(
 const groupInviteFormValidation = require(
     '../middleware/group-invite-form-validation.js',
 );
+
+const authValidationMiddleware = require('../middleware/auth-validation.js');
 
 router.post('/delete-me', (req, res) => {
   const allergies = JSON.parse(req.body.allergies);
@@ -51,70 +54,102 @@ router.get('/get-allergies', (req, res) => {
   });
 });
 
-router.post('/save-group', createGroupFormValidation, (req, res) => {
-  if (!req.body.success)
-    return res.status(400).json({
-      message: req.body.message,
-      success: false,
-    });
-
-  // modify here for when the app is online
-
-  let expireTime = '';
-  let shareLink = '';
-
-  if (req.body.shareLinkExists === 'true') {
-    let currentTime = Date.now();
-
-    if (req.body.shareLinkExpires === 'true')
-      expireTime = currentTime + 86400000;
-
-    shareLink = 'localhost/group-invite/' + uuid.v4();
-  }
-
-  const passCode = uuid.v4();
-
-  const groupData = {
-    groupName: req.body.groupName,
-    groupMotto: req.body.groupMotto,
-    groupMessage: req.body.groupMessage,
-    allergiesOptedFor: JSON.parse(req.body.allergiesOptedFor),
-    shareLinkEnabled: req.body.shareLinkExists,
-    shareLink: req.body.shareLinkExists ? shareLink : '',
-    shareLinkExpiresAt: req.body.shareLinkExpires ? expireTime : '',
-    allowGroupChat: req.body.allowGroupChat,
-    ownerEmailAddress: req.body.ownerEmailAddress,
-    ownerFullName: req.body.ownerFullName,
-    participants: JSON.parse(req.body.participants),
-    passCode: passCode,
-  };
-
-  const newGroup = new Group(groupData);
-  newGroup.save((err) => {
-    if (err) {
-      console.log(err);
-    }
-
-    Group.find({ passCode: passCode }, (err, group) => {
-      if (err) {
+router.post('/save-group', createGroupFormValidation, authValidationMiddleware,
+    (req, res) => {
+      if (!req.body.success)
         return res.status(400).json({
-          message: 'Internal error',
+          message: req.body.message,
+          success: false,
         });
+
+      // modify here for when the app is online
+
+      let expireTime = '';
+      let shareLink = '';
+
+      if (req.body.shareLinkExists === 'true') {
+        let currentTime = Date.now();
+
+        if (req.body.shareLinkExpires === 'true')
+          expireTime = currentTime + 86400000;
+
+        shareLink = 'localhost/group-invite/' + uuid.v4();
       }
 
-      if (group.length === 0) {
-        return res.status(404).json({
-          message: 'Group not found',
-        });
-      }
+      const passCode = uuid.v4();
 
-      return res.json({
-        groupId: group[0]._id,
-        groupPassCode: passCode,
+      const groupData = {
+        userId: req.body.userId,
+        groupName: req.body.groupName,
+        groupMotto: req.body.groupMotto,
+        groupMessage: req.body.groupMessage,
+        allergiesOptedFor: JSON.parse(req.body.allergiesOptedFor),
+        shareLinkEnabled: req.body.shareLinkExists,
+        shareLink: req.body.shareLinkExists ? shareLink : '',
+        shareLinkExpiresAt: req.body.shareLinkExpires ? expireTime : '',
+        allowGroupChat: req.body.allowGroupChat,
+        ownerEmailAddress: req.body.ownerEmailAddress,
+        ownerFullName: req.body.ownerFullName,
+        participants: JSON.parse(req.body.participants),
+        passCode: passCode,
+      };
+
+      const newGroup = new Group(groupData);
+      newGroup.save((err) => {
+        if (err) {
+          console.log(err);
+        }
+
+        User.find({ _id: req.body.userId }, (err, user) => {
+          if (err) {
+            return res.status(400).json({
+              message: 'Internal error',
+            });
+          }
+
+          if (user.length === 0) {
+            return res.status(404).json({
+              message: 'Group not found',
+            });
+          }
+
+          let newParticiapntInGroups = user[0].participantInGroups;
+
+          Group.find({ passCode: passCode }, (err, group) => {
+            if (err) {
+              return res.status(400).json({
+                message: 'Internal error',
+              });
+            }
+
+            if (group.length === 0) {
+              return res.status(404).json({
+                message: 'Group not found',
+              });
+            }
+
+            newParticiapntInGroups.push(group[0]._id);
+
+            User.updateOne({ _id: { $eq: req.body.userId } }, {
+              $set: {
+                participantInGroups: newParticiapntInGroups,
+              },
+            }, (err) => {
+              if (err) {
+                return res.status(400).json({
+                  message: 'An error has occurred.',
+                });
+              }
+            });
+
+            return res.json({
+              groupId: group[0]._id,
+              groupPassCode: passCode,
+            });
+          });
+        });
       });
     });
-  });
-});
 
 router.post('/get-group', (req, res) => {
   Group.find(
@@ -175,14 +210,18 @@ router.post('/check-share-link-validity', (req, res) => {
       });
     }
 
-    if (parseInt(group[0].shareLinkExpiresAt)) {
+    console.log(group[0].participants);
+
+    if (group[0].shareLinkExpiresAt) {
       let currentTime = Date.now();
 
-      if (currentTime > parseInt(group[0].shareLinkExpiresAt))
+      if (currentTime > group[0].shareLinkExpiresAt)
         return res.status(401).json({
           message: 'Invitation link has expired!',
         });
-    } else return res.json({
+    }
+
+    return res.json({
       message: 'Link is valid',
       participants: group[0].participants,
     });
@@ -204,35 +243,185 @@ router.post('/on-enter-group', groupInviteFormValidation, (req, res) => {
     participantRole: 'Participant',
   });
 
-  Group.updateOne({ shareLink: { $eq: req.body.shareLink } }, {
+  User.find({ email: req.body.emailAddress }, (err, user) => {
+    if (err) {
+      return res.status(400).json({
+        message: 'Internal error',
+      });
+    }
+
+    let newParticiapntInGroups = [];
+
+    if (user.length !== 0) {
+      newParticiapntInGroups = user[0].participantInGroups;
+    }
+
+    Group.find({ shareLink: req.body.shareLink }, (err, group) => {
+      if (err) {
+        return res.status(400).json({
+          message: 'Internal error',
+        });
+      }
+
+      if (group.length === 0) {
+        return res.status(404).json({
+          message: 'Group not found',
+        });
+      }
+
+      if (req.body.isLoggedIn) {
+        newParticiapntInGroups.push(group[0]._id);
+
+        User.updateOne({ email: { $eq: req.body.emailAddress } }, {
+          $set: {
+            participantInGroups: newParticiapntInGroups,
+          },
+        }, (err) => {
+          if (err) {
+            return res.status(400).json({
+              message: 'An error has occurred.',
+            });
+          }
+
+          Group.updateOne({ shareLink: { $eq: req.body.shareLink } }, {
+            $set: {
+              participants: newParticipants,
+            },
+          }, (err) => {
+            if (err) {
+              return res.status(400).json({
+                message: 'An error has occurred.',
+              });
+            } else {
+              Group.find({ shareLink: req.body.shareLink }, (err, group) => {
+                if (err) {
+                  return res.status(400).json({
+                    message: 'Internal error',
+                  });
+                }
+
+                if (group.length === 0) {
+                  return res.status(404).json({
+                    message: 'Group not found',
+                  });
+                }
+
+                return res.json({
+                  groupId: group[0]._id,
+                  groupPassCode: group[0].passCode,
+                });
+              });
+            }
+          });
+        });
+      } else {
+        Group.updateOne({ shareLink: { $eq: req.body.shareLink } }, {
+          $set: {
+            participants: newParticipants,
+          },
+        }, (err) => {
+          if (err) {
+            return res.status(400).json({
+              message: 'An error has occurred.',
+            });
+          }
+
+          Group.find({ shareLink: req.body.shareLink }, (err, group) => {
+            if (err) {
+              return res.status(400).json({
+                message: 'Internal error',
+              });
+            }
+
+            if (group.length === 0) {
+              return res.status(404).json({
+                message: 'Group not found',
+              });
+            }
+
+            return res.json({
+              groupId: group[0]._id,
+              groupPassCode: group[0].passCode,
+            });
+          });
+
+        });
+      }
+    });
+  });
+});
+
+router.post('/request-share-link', authValidationMiddleware, (req, res) => {
+
+  Group.updateOne({ _id: { $eq: req.body.groupId } }, {
     $set: {
-      participants: newParticipants,
+      shareLink: 'localhost/group-invite/' + uuid.v4(),
+      shareLinkExpiresAt: Date.now() + 86400000,
     },
   }, (err) => {
     if (err) {
       return res.status(400).json({
         message: 'An error has occurred.',
       });
-    } else {
-      Group.find({ shareLink: req.body.shareLink }, (err, group) => {
-        if (err) {
-          return res.status(400).json({
-            message: 'Internal error',
-          });
-        }
+    }
 
-        if (group.length === 0) {
-          return res.status(404).json({
-            message: 'Group not found',
-          });
-        }
-
-        return res.json({
-          groupId: group[0]._id,
-          groupPassCode: group[0].passCode,
+    Group.find({ _id: req.body.groupId }, (err, group) => {
+      if (err) {
+        return res.status(400).json({
+          message: 'Internal error',
         });
+      }
+
+      if (group.length === 0) {
+        return res.status(404).json({
+          message: 'Group not found',
+        });
+      }
+
+      return res.json({
+        group: group,
+        success: true,
+      });
+    });
+  });
+});
+
+router.post('/get-my-groups', authValidationMiddleware, (req, res) => {
+  Group.find({ ownerEmailAddress: req.body.email }, (err, groups) => {
+    if (err) {
+      return res.status(400).json({
+        message: 'Internal error',
       });
     }
+
+    let ownGroups = groups;
+
+    Group.find(
+        {
+          $and: [
+            { participants: { $elemMatch: { participantEmailAddress: req.body.email } } },
+            { ownerEmailAddress: { $not: { $eq: req.body.email } } },
+          ],
+        },
+        (err, groups) => {
+          if (err) {
+            return res.status(400).json({
+              message: 'An error has occurred.',
+            });
+          }
+
+          if (groups.length === 0) {
+            return res.status(404).json({
+              message: 'Group not found',
+            });
+          }
+
+          return res.json({
+            participantGroups: groups,
+            ownGroups: ownGroups,
+          });
+        });
+
   });
 });
 

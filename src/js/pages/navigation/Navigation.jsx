@@ -154,6 +154,11 @@ class Navigation extends Component {
                                 <Icon type="home"/>
                                 <span>Home</span>
                               </MenuItem>
+                              <MenuItem key="/my-groups">
+                                <Link to={`/my-groups`}/>
+                                <Icon type="usergroup-add" />
+                                <span>My groups</span>
+                              </MenuItem>
                               <MenuItem key="/allergies">
                                 <Link to={`/allergies`}/>
                                 <Icon type="skin"/>
@@ -207,6 +212,11 @@ class Navigation extends Component {
                                 <Link to={`/`}/>
                                 <Icon type="home"/>
                                 <span>Home</span>
+                              </MenuItem>
+                              <MenuItem key="/allergies">
+                                <Link to={`/allergies`}/>
+                                <Icon type="skin"/>
+                                <span>Allergies</span>
                               </MenuItem>
                               <MenuItem key="login">
                                 <Icon type="login"/>
@@ -279,6 +289,11 @@ class Navigation extends Component {
                         <Icon type="home"/>
                         <span>Home</span>
                       </MenuItem>
+                      <MenuItem key="/my-groups">
+                        <Link to={`/my-groups`}/>
+                        <Icon type="usergroup-add" />
+                        <span>My groups</span>
+                      </MenuItem>
                       <MenuItem key="/allergies">
                         <Link to={`/allergies`}/>
                         <Icon type="skin"/>
@@ -307,6 +322,11 @@ class Navigation extends Component {
                         <Link to={`/`}/>
                         <Icon type="home"/>
                         <span>Home</span>
+                      </MenuItem>
+                      <MenuItem key="/allergies">
+                        <Link to={`/allergies`}/>
+                        <Icon type="skin"/>
+                        <span>Allergies</span>
                       </MenuItem>
                       <MenuItem key="login">
                         <Icon type="login"/>

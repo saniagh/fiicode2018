@@ -13,13 +13,12 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  participantInGroups: {
+    type: Array,
+  },
   registerDate: {
     type: Date,
     default: Date.now(),
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false,
   },
 });
 

@@ -58,6 +58,14 @@ class CreateGroupView extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (Auth.isUserAuthenticated() && nextProps.email) {
+      this.setState({
+        ownerEmailAddress: nextProps.email,
+      });
+    }
+  }
+
   onGroupNameChange = (e) => {
     this.setState({
       groupName: e.target.value,
@@ -148,9 +156,11 @@ class CreateGroupView extends Component {
         method: 'post',
         url: '/allergies/save-group',
         headers: {
+          'Authorization': `bearer ${Auth.getToken()}`,
           'Content-type': 'application/x-www-form-urlencoded',
         },
         data: qs.stringify({
+          userId: this.props.userId,
           groupName: this.state.groupName,
           groupMotto: this.state.groupMotto,
           groupMessage: this.state.groupMessage,
@@ -201,28 +211,35 @@ class CreateGroupView extends Component {
   // remember to add the owner as the single participant to the group
 
   render() {
-    return <CreateGroup groupChat={this.state.groupChat}
-                        groupMotto={this.state.groupMotto}
-                        groupMessage={this.state.groupMessage}
-                        allergiesOptedFor={this.state.allergiesOptedFor}
-                        shareLinkExists={this.state.shareLinkExists}
-                        shareLinkExpires={this.state.shareLinkExpires}
-                        allowGroupChat={this.state.allowGroupChat}
-                        ownerEmailAddress={this.state.ownerEmailAddress}
-                        ownerFullName={this.state.ownerFullName}
-                        savingGroup={this.state.savingGroup}
-                        onGroupNameChange={this.onGroupNameChange}
-                        onGroupMottoChange={this.onGroupMottoChange}
-                        onGroupMessageChange={this.onGroupMessageChange}
-                        onSelectAlertTime={this.onSelectAlertTime}
-                        onShareLinkExistsChange={this.onShareLinkExistsChange}
-                        onShareLinkExpiresChange={this.onShareLinkExpiresChange}
-                        onAllowGroupChatChange={this.onAllowGroupChatChange}
-                        onOwnerEmailAddressChange={this.onOwnerEmailAddressChange}
-                        onOwnerFullNameChange={this.onOwnerFullNameChange}
-                        onChoosingDateIndexChange={this.onChoosingDateIndexChange}
-                        onSaveGroup={this.onSaveGroup}
-                        onHideModal={this.props.onHideModal}/>;
+
+    if (Auth.isUserAuthenticated()) {
+      return <CreateGroup groupChat={this.state.groupChat}
+                          groupMotto={this.state.groupMotto}
+                          groupMessage={this.state.groupMessage}
+                          allergiesOptedFor={this.state.allergiesOptedFor}
+                          shareLinkExists={this.state.shareLinkExists}
+                          shareLinkExpires={this.state.shareLinkExpires}
+                          allowGroupChat={this.state.allowGroupChat}
+                          ownerEmailAddress={this.state.ownerEmailAddress}
+                          ownerFullName={this.state.ownerFullName}
+                          savingGroup={this.state.savingGroup}
+                          onGroupNameChange={this.onGroupNameChange}
+                          onGroupMottoChange={this.onGroupMottoChange}
+                          onGroupMessageChange={this.onGroupMessageChange}
+                          onSelectAlertTime={this.onSelectAlertTime}
+                          onShareLinkExistsChange={this.onShareLinkExistsChange}
+                          onShareLinkExpiresChange={this.onShareLinkExpiresChange}
+                          onAllowGroupChatChange={this.onAllowGroupChatChange}
+                          onOwnerEmailAddressChange={this.onOwnerEmailAddressChange}
+                          onOwnerFullNameChange={this.onOwnerFullNameChange}
+                          onChoosingDateIndexChange={this.onChoosingDateIndexChange}
+                          onSaveGroup={this.onSaveGroup}
+                          onHideModal={this.props.onHideModal}/>;
+    } else return <div className={this.state.mainClassName}>
+      <div className="page-header">
+        Hello there! Please login first!
+      </div>
+    </div>;
   }
 }
 CreateGroupView.contextTypes = {
@@ -231,6 +248,7 @@ CreateGroupView.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    userId: state.userReducer.id,
     allergies: state.allergiesReducer.allergies,
     selected: state.allergiesReducer.selected,
     email: state.userReducer.email,

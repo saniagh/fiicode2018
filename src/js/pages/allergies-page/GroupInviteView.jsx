@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { notification } from 'antd';
 import axios from 'axios';
 import qs from 'qs';
+
+import Auth from '../../modules/Auth.js';
 
 import GroupInvite from './GroupInvite.jsx';
 
@@ -13,6 +16,7 @@ class GroupInviteView extends Component {
       emailAddress: '',
       fullName: '',
       participants: [],
+      enteringGroup: false,
     };
   }
 
@@ -37,6 +41,21 @@ class GroupInviteView extends Component {
           description: 'This share link has expired!',
         });
     });
+
+    if (this.props.email) {
+      this.setState({
+        emailAddress: this.props.email,
+      });
+    }
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.email) {
+      this.setState({
+        emailAddress: nextProps.email,
+      });
+    }
   }
 
   onEmailAddressChange = (e) => {
@@ -52,43 +71,80 @@ class GroupInviteView extends Component {
   };
 
   onEnterGroup = () => {
-    axios({
-      method: 'post',
-      url: '/allergies/on-enter-group',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-      },
-      data: qs.stringify({
-        shareLink: `localhost/group-invite/${this.props.match.params.shareLink}`,
-        emailAddress: this.state.emailAddress,
-        fullName: this.state.fullName,
-        participants: JSON.stringify(this.state.participants),
-      }),
-    }).then((res) => {
-      notification.success({
-        message: 'Success!',
-        description: 'You have entered this group. You will be redirected shortly.',
-      });
 
-      setTimeout(() => {
-        this.props.history.push(
-            `/groups/verified/${res.data.groupId}&${res.data.groupPassCode}`);
-      }, 3000);
-    }).catch(() => {
-      notification.error({
-        message: 'Error',
-        description: 'Make sure you enter your email address',
-      });
+    this.setState({
+      enteringGroup: true,
     });
+
+    let alreadyInGroup = false;
+
+    this.state.participants.map((participant) => {
+      if (participant.participantEmailAddress === this.state.emailAddress) {
+        notification.error({
+          message: 'User already in group!',
+          description: 'This user is already a participant of this group.',
+        });
+        alreadyInGroup = true;
+        this.setState({
+          enteringGroup: false,
+        });
+      }
+    });
+
+    if (alreadyInGroup === false) {
+      axios({
+        method: 'post',
+        url: '/allergies/on-enter-group',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+        },
+        data: qs.stringify({
+          isLoggedIn: Auth.isUserAuthenticated(),
+          shareLink: `localhost/group-invite/${this.props.match.params.shareLink}`,
+          emailAddress: this.state.emailAddress,
+          fullName: this.state.fullName,
+          participants: JSON.stringify(this.state.participants),
+        }),
+      }).then((res) => {
+        this.setState({
+          enteringGroup: true,
+        });
+        notification.success({
+          message: 'Success!',
+          description: 'You have entered this group. You will be redirected shortly.',
+        });
+
+        setTimeout(() => {
+          this.props.history.push(
+              `/groups/verified/${res.data.groupId}&${res.data.groupPassCode}`);
+        }, 3000);
+      }).catch(() => {
+        this.setState({
+          enteringGroup: false,
+        });
+        notification.error({
+          message: 'Error',
+          description: 'Make sure you enter your email address',
+        });
+      });
+    }
   };
 
   render() {
-    return <GroupInvite emailAddress={this.state.emailAddress}
+    return <GroupInvite email={this.props.email}
+                        emailAddress={this.state.emailAddress}
                         fullName={this.state.fullName}
+                        enteringGroup={this.state.enteringGroup}
                         onEmailAddressChange={this.onEmailAddressChange}
                         onFullNameChange={this.onFullNameChange}
                         onEnterGroup={this.onEnterGroup}/>;
   }
 }
 
-export default GroupInviteView;
+const mapStateToProps = (state) => {
+  return {
+    email: state.userReducer.email,
+  };
+};
+
+export default connect(mapStateToProps)(GroupInviteView);
