@@ -46,6 +46,12 @@ class Footer extends Component {
                   </li>
                   <li className="footer-nav-link"
                       onClick={smoothScroll()}>
+                    <Link to={`/my-groups`}>
+                      My groups
+                    </Link>
+                  </li>
+                  <li className="footer-nav-link"
+                      onClick={smoothScroll()}>
                     <Link to={`/allergies`}>
                       All allergies
                     </Link>

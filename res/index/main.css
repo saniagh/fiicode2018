@@ -198,7 +198,8 @@
 
 .group-middle-participants-list {
   padding: 0 0 0 30px;
-  list-style-type: square; }
+  list-style-type: square;
+  word-break: break-all; }
   .group-middle-participants-list li {
     padding: 5px 0 5px 0; }
   .group-middle-participants-list li:last-child {
@@ -275,7 +276,11 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: rgba(0, 0, 0, 0.65); }
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0 0 10px 0; }
+
+.groups-list-item:last-child {
+  margin: 0; }
 
 .groups-list-item:hover {
   background-color: whitesmoke; }
@@ -297,10 +302,11 @@
 .page-header {
   font-size: 36px;
   font-weight: 600;
-  padding: 20px 0;
+  padding: 20px 0 20px 0 !important;
   width: 100%;
   text-align: center;
-  clear: both; }
+  clear: both;
+  color: rgba(0, 0, 0, 0.65); }
   .page-header.border-top {
     border-top: 1px solid #DCDCDC; }
 
@@ -488,5 +494,22 @@
 .footer-share:hover {
   background-color: transparent !important;
   color: transparent !important; }
+
+.home-paragraph {
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: center; }
+
+.home-paragraph:last-child {
+  margin-bottom: 0; }
+
+.get-started-button-spacing {
+  padding: 50px 0 0 0;
+  display: flex;
+  justify-content: center; }
+
+h1 {
+  margin: 0 !important;
+  padding: 0 !important; }
 
 /*# sourceMappingURL=main.css.map */

@@ -6,7 +6,7 @@ import { withRouter, Link } from 'react-router-dom';
 
 import Auth from '../modules/Auth.js';
 
-import { Layout, notification, BackTop, LocaleProvider, Card } from 'antd';
+import { Layout, BackTop, LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 const { Content, Footer } = Layout;
 

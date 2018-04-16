@@ -65,6 +65,9 @@ class CreateGroup extends Component {
                         '20px 0 0 0' :
                         '24px 32px 0 32px',
                   }}>
+              <h1 className="page-header">
+                Create Group
+              </h1>
               <Card noHovering={true}
                     style={{
                       width: mediaQuery.matches ?

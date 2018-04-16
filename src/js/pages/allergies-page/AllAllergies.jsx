@@ -76,9 +76,9 @@ class AllAllergies extends Component {
 
     return (
         <div className={this.state.mainClassName}>
-          <div className="page-header">
-            Types of Allergies
-          </div>
+          <h1 className="page-header">
+            Choose an allergy
+          </h1>
           <div className="allergies-capsules">
             <div className="allergy-image-container">
               <Link to={`/allergies/food-allergy`}>
@@ -286,9 +286,9 @@ class AllAllergies extends Component {
           </div>
 
           <div>
-            <div className="page-header border-top">
+            <h1 className="page-header border-top">
               Protein-Based Allergens and Allergies
-            </div>
+            </h1>
             <div className="confirm-selection-button-container">
               <Button type={this.props.selected.length !== 0 ?
                   'primary' :

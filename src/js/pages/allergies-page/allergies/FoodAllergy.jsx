@@ -30,9 +30,9 @@ class FoodAllergy extends Component {
 
     return (
         <div className={this.state.mainClassName}>
-          <div className="page-header">
+          <h1 className="page-header">
             Food allergy
-          </div>
+          </h1>
           <div className="allergy-create-group-button">
             <Button type='primary'
                     size="large"
@@ -42,7 +42,7 @@ class FoodAllergy extends Component {
                       this.props.onSelect(this.props.foodAllergy._id);}
                     }>
               <Link to={`/create-group`}>
-                Start a group
+                Continue creating group
               </Link>
             </Button>
           </div>

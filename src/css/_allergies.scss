@@ -20,10 +20,11 @@
 .page-header {
   font-size: 36px;
   font-weight: 600;
-  padding: 20px 0;
+  padding: 20px 0 20px 0 !important;
   width: 100%;
   text-align: center;
   clear: both;
+  color: rgba(0, 0, 0, 0.65);
 
   &.border-top {
     border-top: 1px solid #DCDCDC;

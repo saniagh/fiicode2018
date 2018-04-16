@@ -29,12 +29,12 @@ class MyGroups extends Component {
                 bordered={false}
                 bodyStyle={{
                   padding: mediaQuery.matches ?
-                      '20px 0 20px 0' :
+                      '40px 0 60px 0' :
                       '50px 32px 150px 32px',
                 }}>
-            <div className="page-header">
+            <h1 className="page-header">
               My groups
-            </div>
+            </h1>
             <Card noHovering={true}
                   style={{
                     width: mediaQuery.matches ?
