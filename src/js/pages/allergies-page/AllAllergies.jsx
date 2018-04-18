@@ -131,12 +131,12 @@ class AllAllergies extends Component {
 
           <div className="allergies-capsules">
             <div className="allergy-image-container">
-              <Link to={`/allergies/sting-allergy`}>
+              <Link to={`/allergies/insect-sting-allergy`}>
                 <img src="./sting-allergy.jpg" alt=""/>
               </Link>
             </div>
             <h3 className="allergy-header">
-              <Link to={`/allergies/sting-allergy`}>
+              <Link to={`/allergies/insect-sting-allergy`}>
                 Insect Sting Allergy
               </Link>
             </h3>
@@ -149,12 +149,12 @@ class AllAllergies extends Component {
 
           <div className="allergies-capsules">
             <div className="allergy-image-container">
-              <Link to={`/allergies/pet-allergy`}>
+              <Link to={`/allergies/pet-allergies`}>
                 <img src="./pet-allergy.jpg" alt=""/>
               </Link>
             </div>
             <h3 className="allergy-header">
-              <Link to={`/allergies/pet-allergy`}>
+              <Link to={`/allergies/pet-allergies`}>
                 Pet Allergies
               </Link>
             </h3>
@@ -166,12 +166,12 @@ class AllAllergies extends Component {
 
           <div className="allergies-capsules">
             <div className="allergy-image-container">
-              <Link to={`/allergies/eye-allergy`}>
+              <Link to={`/allergies/eye-allergies`}>
                 <img src="./eye-allergy.jpg" alt=""/>
               </Link>
             </div>
             <h3 className="allergy-header">
-              <Link to={`/allergies/eye-allergy`}>
+              <Link to={`/allergies/eye-allergies`}>
                 Eye Allergies
               </Link>
             </h3>

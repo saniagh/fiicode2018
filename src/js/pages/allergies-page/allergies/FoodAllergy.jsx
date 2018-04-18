@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import * as Scroll from 'react-scroll';
 import { Anchor, Button } from 'antd';
-const LinkAntd = Anchor.Link;
+const ScrollLink = Scroll.Link;
+const Element = Scroll.Element;
+const Events = Scroll.Events;
+const scrollSpy = Scroll.scrollSpy;
 
 class FoodAllergy extends Component {
   constructor(props) {
@@ -19,6 +23,19 @@ class FoodAllergy extends Component {
         mainClassName: 'main-container',
       });
     }, 100);
+
+    Events.scrollEvent.register('begin', (to, element) => {
+    });
+
+    Events.scrollEvent.register('end', (to, element) => {
+    });
+
+    scrollSpy.update();
+  }
+
+  componentWillUnmount() {
+    Events.scrollEvent.remove('begin');
+    Events.scrollEvent.remove('end');
   }
 
   render() {
@@ -39,35 +56,93 @@ class FoodAllergy extends Component {
                     onClick={() => {
                       this.props.onConfirmSelectionOneAllergy(
                           selectedArray);
-                      this.props.onSelect(this.props.foodAllergy._id);}
+                      this.props.onSelect(this.props.foodAllergy._id);
+                    }
                     }>
               <Link to={`/create-group`}>
                 Continue creating group
               </Link>
             </Button>
           </div>
-          <div >
-
-          </div>
           <div className="allergy-page-container">
             <div className="allergy-page-anchor-container">
               <Anchor affix={!mediaQuery.matches}
                       offsetTop={mediaQuery.matches ? 120 : 50}>
-                <LinkAntd href="#Overview" title="Overview"/>
-                <LinkAntd href="#Symptoms" title="Symptoms"/>
-                <LinkAntd href="#Triggers" title="Triggers"/>
-                <LinkAntd href="#Diagnosing Food Allergies"
-                          title="Diagnosing Food Allergies"/>
-                <LinkAntd href="#Management and Treatment"
-                          title="Management and Treatment"/>
-                <LinkAntd href="#FAQs" title="FAQs"/>
+                <div className="ant-anchor-link">
+                  <ScrollLink to="Overview"
+                              offset={mediaQuery.matches ? -120 : -50}
+                              spy={true}
+                              smooth={true}
+                              hashSpy={true}
+                              duration={500}
+                              isDynamic={true}>
+                    Overview
+                  </ScrollLink>
+                </div>
+                <div className="ant-anchor-link">
+                  <ScrollLink to="Symptoms"
+                              offset={mediaQuery.matches ? -120 : -50}
+                              spy={true}
+                              smooth={true}
+                              hashSpy={true}
+                              duration={500}
+                              isDynamic={true}>
+                    Symptoms
+                  </ScrollLink>
+                </div>
+                <div className="ant-anchor-link">
+                  <ScrollLink to="Triggers"
+                              offset={mediaQuery.matches ? -120 : -50}
+                              spy={true}
+                              smooth={true}
+                              hashSpy={true}
+                              duration={500}
+                              isDynamic={true}>
+                    Triggers
+                  </ScrollLink>
+                </div>
+                <div className="ant-anchor-link">
+                  <ScrollLink to="Diagnosing Food Allergies"
+                              offset={mediaQuery.matches ? -120 : -50}
+                              spy={true}
+                              smooth={true}
+                              hashSpy={true}
+                              duration={500}
+                              isDynamic={true}>
+                    Diagnosing Food Allergies
+                  </ScrollLink>
+                </div>
+                <div className="ant-anchor-link">
+                  <ScrollLink to="Management and Treatment"
+                              offset={mediaQuery.matches ? -120 : -50}
+                              spy={true}
+                              smooth={true}
+                              hashSpy={true}
+                              duration={500}
+                              isDynamic={true}>
+                    Management and Treatment
+                  </ScrollLink>
+                </div>
+                <div className="ant-anchor-link">
+                  <ScrollLink to="FAQs"
+                              offset={mediaQuery.matches ? -120 : -50}
+                              spy={true}
+                              smooth={true}
+                              hashSpy={true}
+                              duration={500}
+                              isDynamic={true}>
+                    FAQs
+                  </ScrollLink>
+                </div>
               </Anchor>
             </div>
-            <div className="allergy-page-content">
-              <h3 id="Overview"
-                  className="allergy-section-title">
-                Overview
-              </h3>
+            <div className="allergy-page-content" id="page-content"
+                 style={{ paddingBottom: 20 }}>
+              <Element name="Overview">
+                <h3 className="allergy-section-title">
+                  Overview
+                </h3>
+              </Element>
               <p className="allergy-section-paragraph">
                 More than 50 million Americans have an allergy of some kind.
                 Food allergies are estimated to affect 4 to 6 percent of
@@ -80,10 +155,11 @@ class FoodAllergy extends Component {
                 to foods you have eaten for years with no problems. Learn more
                 about the types of food allergies.
               </p>
-              <h3 id="Symptoms"
-                  className="allergy-section-title">
-                Symptoms
-              </h3>
+              <Element name="Symptoms">
+                <h3 className="allergy-section-title">
+                  Symptoms
+                </h3>
+              </Element>
               <p className="allergy-section-paragraph">
                 The body’s immune system keeps you healthy by fighting off
                 infections and other dangers to good health. A food allergy
@@ -231,11 +307,11 @@ class FoodAllergy extends Component {
                 allergen is destroyed by heating the food, which can then be
                 consumed with no problem.
               </p>
-
-              <h3 id="Triggers"
-                  className="allergy-section-title">
-                Triggers
-              </h3>
+              <Element name="Triggers">
+                <h3 className="allergy-section-title">
+                  Triggers
+                </h3>
+              </Element>
               <p className="allergy-section-paragraph">
                 Once a food allergy is diagnosed, the most effective treatment
                 is to avoid the food. The foods most associated with food
@@ -302,12 +378,11 @@ class FoodAllergy extends Component {
                 reaction, an oral food challenge is the best way to determine
                 whether the food poses a danger.
               </p>
-
-              <h3 id="Diagnosing Food Allergies"
-                  className="allergy-section-title">
-                Diagnosing Food Allergies
-              </h3>
-
+              <Element name="Diagnosing Food Allergies">
+                <h3 className="allergy-section-title">
+                  Diagnosing Food Allergies
+                </h3>
+              </Element>
               <p className="allergy-section-paragraph">
                 A food allergy will usually cause some sort of reaction every
                 time the trigger food is eaten. Symptoms can vary from person to
@@ -401,12 +476,11 @@ class FoodAllergy extends Component {
                 a doctor’s office or at a food challenge center, with emergency
                 medication and equipment on hand.
               </p>
-
-              <h3 id="Management and Treatment"
-                  className="allergy-section-title">
-                Management and Treatment
-              </h3>
-
+              <Element name="Management and Treatment">
+                <h3 className="allergy-section-title">
+                  Management and Treatment
+                </h3>
+              </Element>
               <p className="allergy-section-paragraph">
                 The primary way to manage a food allergy is to avoid consuming
                 the food that causes you problems. Carefully check ingredient
@@ -639,12 +713,11 @@ class FoodAllergy extends Component {
                 if you or your child may be a candidate for one of these
                 studies.
               </p>
-
-              <h3 id="FAQs"
-                  className="allergy-section-title">
-                FAQs
-              </h3>
-
+              <Element name="FAQs">
+                <h3 className="allergy-section-title">
+                  FAQs
+                </h3>
+              </Element>
               <h4 className="allergy-section-mid-title">
                 Are there any treatments for food allergy?
               </h4>

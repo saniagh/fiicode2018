@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import FoodAllergy from './FoodAllergy.jsx';
+import DustAllergy from './DustAllergy.jsx';
 
-class FoodAllergyView extends Component {
+class DustAllergyView extends Component {
 
   componentDidMount() {
-    this.context.router.history.replace('/allergies/food-allergy');
+    this.context.router.history.replace('/allergies/dust-allergy');
   }
 
   render() {
-    return <FoodAllergy foodAllergy={this.props.foodAllergy}
+    return <DustAllergy dustAllergy={this.props.dustAllergy}
                         onSelect={this.props.onSelect}
                         onConfirmSelectionOneAllergy={this.props.onConfirmSelectionOneAllergy}/>;
   }
 }
 
-FoodAllergyView.contextTypes = {
+DustAllergyView.contextTypes = {
   router: PropTypes.object.isRequired,
 };
 
-export default FoodAllergyView;
+export default DustAllergyView;

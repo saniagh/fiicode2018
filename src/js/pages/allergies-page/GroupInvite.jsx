@@ -53,15 +53,18 @@ class GroupInvite extends Component {
                   bodyStyle={{
                     padding: mediaQuery.matches ?
                         '20px 0 0 0' :
-                        '150px 32px 150px 32px',
+                        '75px 32px 150px 32px',
                   }}>
+              <h1 className="page-header">
+                Group Invitation
+              </h1>
               <Card noHovering={true}
                     style={{
                       width: mediaQuery.matches ?
                           '90vw'
                           :
                           900,
-                      margin: '0 auto',
+                      margin: '24px auto 0 auto',
                     }}
                     bodyStyle={{
                       padding: mediaQuery.matches ? 10 : '20px 0 0 0',

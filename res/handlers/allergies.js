@@ -245,28 +245,6 @@ router.post('/get-group', (req, res) => {
       });
 });
 
-// delete this
-router.get('/save-custom-allergy', (req, res) => {
-  const allergyData = {
-    species: '',
-    iuisAllergen: '',
-    type: 'Food Allergy',
-    group: '',
-    length: '',
-    accession: '',
-    gi: '',
-    firstVersion: '',
-    isGeneralAllergy: true,
-  };
-
-  const newAllergy = new Allergies(allergyData);
-  newAllergy.save((err) => {
-  });
-
-  return res.status(200);
-
-});
-
 router.post('/check-share-link-validity', (req, res) => {
   Group.find({ shareLink: req.body.shareLink }, (err, group) => {
     if (err) {
