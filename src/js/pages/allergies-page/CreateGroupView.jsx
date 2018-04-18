@@ -191,6 +191,7 @@ class CreateGroupView extends Component {
       }).catch(() => {
         this.setState({
           savingGroup: false,
+          savedGroup: true,
         });
         notification.error({
           message: 'Oops!',
@@ -223,6 +224,7 @@ class CreateGroupView extends Component {
                           ownerEmailAddress={this.state.ownerEmailAddress}
                           ownerFullName={this.state.ownerFullName}
                           savingGroup={this.state.savingGroup}
+                          savedGroup={this.state.savedGroup}
                           onGroupNameChange={this.onGroupNameChange}
                           onGroupMottoChange={this.onGroupMottoChange}
                           onGroupMessageChange={this.onGroupMessageChange}

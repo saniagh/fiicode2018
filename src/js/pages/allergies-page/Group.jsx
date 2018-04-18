@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Progress, Button, notification } from 'antd';
-import Countdown from 'react-countdown-now';
+import { Collapse, Progress, Button, notification, Card } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 const Panel = Collapse.Panel;
 
@@ -46,35 +45,44 @@ class Group extends Component {
 
   render() {
 
+    const mediaQuery = window.matchMedia('(max-width: 1100px)');
+
     const group = this.props.group;
     return (
         <div className={this.state.mainClassName}>
-          <h3 className="group-name">
-            {group.groupName}
-          </h3>
-          <div className="group-motto">
-            {group.groupMotto}
-          </div>
-          <div className="group-middle">
-            <div className="group-middle-alerts">
-              <h4 className="group-middle-title">
-                Group's message:
-              </h4>
-              <div>
-                {group.groupMessage}
-              </div>
-              <h4 className="group-middle-title">
-                Alerts enabled for this group:
-              </h4>
-              {group.allergiesOptedFor.map((allergy, index) => {
+          <Card bordered={false}
+                noHovering={true}
+                bodyStyle={{
+                  padding: mediaQuery.matches ?
+                      '40px 0 60px 0' :
+                      '50px 32px 100px 32px',
+                }}>
+            <h3 className="group-name">
+              {group.groupName}
+            </h3>
+            <div className="group-motto">
+              {group.groupMotto}
+            </div>
+            <div className="group-middle">
+              <div className="group-middle-alerts">
+                <h4 className="group-middle-title">
+                  Group's message:
+                </h4>
+                <div>
+                  {group.groupMessage}
+                </div>
+                <h4 className="group-middle-title">
+                  Alerts enabled for this group:
+                </h4>
+                {group.allergiesOptedFor.map((allergy, index) => {
 
-                let newDate = new Date(allergy.alertTime);
-                let currentDate = new Date();
+                  let newDate = new Date(allergy.alertTime);
+                  let currentDate = new Date();
 
-                let timeDiff = newDate.getTime() - currentDate.getTime();
-                let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                  let timeDiff = newDate.getTime() - currentDate.getTime();
+                  let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-                return <span key={index}>
+                  return <span key={index}>
                       {allergy.isGeneralAllergy ?
                           <Collapse>
                             <Panel header={allergy.type}>
@@ -160,71 +168,72 @@ class Group extends Component {
                           </Collapse>
                       }
                 </span>;
-              })}
-            </div>
-            <div className="group-middle-participants">
-              <h4 className="group-middle-title">
-                Participants in this group:
-              </h4>
-              <ul className="group-middle-participants-list">
-                {group.participants.map((participant, index) => {
-                  return <li key={index}
-                             style={participant.participantRole === 'Owner' ?
-                                 { color: 'tomato' } :
-                                 {}}>
-                    {participant.participantFullName ?
-                        participant.participantFullName :
-                        participant.participantEmailAddress}&nbsp;
-                    {participant.participantRole === 'Owner' ?
-                      <span>(Owner)</span> : null}
-                  </li>;
                 })}
-              </ul>
-            </div>
+              </div>
+              <div className="group-middle-participants">
+                <h4 className="group-middle-title">
+                  Participants in this group:
+                </h4>
+                <ul className="group-middle-participants-list">
+                  {group.participants.map((participant, index) => {
+                    return <li key={index}
+                               style={participant.participantRole === 'Owner' ?
+                                   { color: 'tomato' } :
+                                   {}}>
+                      {participant.participantFullName ?
+                          participant.participantFullName :
+                          participant.participantEmailAddress}&nbsp;
+                      {participant.participantRole === 'Owner' ?
+                        <span>(Owner)</span> : null}
+                    </li>;
+                  })}
+                </ul>
+              </div>
 
-            {Auth.isUserAuthenticated && group.shareLinkEnabled &&
-            this.getTimeUntilShareLinkExpires() >= 0 &&
-            this.props.ownerEmailAddress &&
-            group.ownerEmailAddress === this.props.ownerEmailAddress ?
-                <div className="group-middle-participants share-link">
-                  <CopyToClipboard text={group.shareLink}
-                                   onCopy={() => {
-                                     notification.success({
-                                       message: 'Copied!',
-                                       description: 'The link has been copied to the clipboard.',
-                                     });
-                                   }}>
-                    <Button>
-                      Copy share link
+              {Auth.isUserAuthenticated && group.shareLinkEnabled &&
+              this.getTimeUntilShareLinkExpires() >= 0 &&
+              this.props.ownerEmailAddress &&
+              group.ownerEmailAddress === this.props.ownerEmailAddress ?
+                  <div className="group-middle-participants share-link">
+                    <CopyToClipboard text={group.shareLink}
+                                     onCopy={() => {
+                                       notification.success({
+                                         message: 'Copied!',
+                                         description: 'The link has been copied to the clipboard.',
+                                       });
+                                     }}>
+                      <Button>
+                        Copy share link
+                      </Button>
+                    </CopyToClipboard>
+                    <p className="share-link-paragraph">
+                      {group.shareLink}
+                    </p>
+                  </div>
+                  :
+                  <div className="group-middle-participants share-link"
+                       style={{
+                         display: Auth.isUserAuthenticated() &&
+                         group.ownerEmailAddress ===
+                         this.props.ownerEmailAddress ? 'flex' : 'none',
+                       }}>
+                    <Button onClick={this.props.onRequestNewShareLink}
+                            loading={this.props.fetchingGroup}>
+                      Request a share link
                     </Button>
-                  </CopyToClipboard>
-                  <p className="share-link-paragraph">
-                    {group.shareLink}
-                  </p>
+                    <p className="share-link-paragraph">
+                      It will expire in 24 hours.
+                    </p>
+                  </div>}
+            </div>
+            {group.allowGroupChat ?
+                <div className="disqus-container">
+                  <div id="disqus_thread"/>
                 </div>
                 :
-                <div className="group-middle-participants share-link"
-                     style={{
-                       display: Auth.isUserAuthenticated() &&
-                       group.ownerEmailAddress ===
-                       this.props.ownerEmailAddress ? 'flex' : 'none',
-                     }}>
-                  <Button onClick={this.props.onRequestNewShareLink}
-                          loading={this.props.fetchingGroup}>
-                    Request a share link
-                  </Button>
-                  <p className="share-link-paragraph">
-                    It will expire in 24 hours.
-                  </p>
-                </div>}
-          </div>
-          {group.allowGroupChat ?
-              <div className="disqus-container">
-                <div id="disqus_thread"/>
-              </div>
-              :
-              null
-          }
+                null
+            }
+          </Card>
         </div>
     );
   }

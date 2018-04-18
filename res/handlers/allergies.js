@@ -1,8 +1,11 @@
 const Allergies = require('mongoose').model('Allergies');
 const Group = require('mongoose').model('Group');
 const User = require('mongoose').model('User');
+const CronJobModel = require('mongoose').model('CronJobModel');
 const express = require('express');
 const uuid = require('uuid');
+const nodemailer = require('nodemailer');
+const CronJob = require('cron').CronJob;
 
 const router = new express.Router();
 
@@ -14,6 +17,14 @@ const groupInviteFormValidation = require(
 );
 
 const authValidationMiddleware = require('../middleware/auth-validation.js');
+
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'valentinfiicode2018@gmail.com',
+    pass: 'ACCOUNT_PASSWORD',
+  },
+});
 
 router.post('/delete-me', (req, res) => {
   const allergies = JSON.parse(req.body.allergies);
@@ -97,8 +108,12 @@ router.post('/save-group', createGroupFormValidation, authValidationMiddleware,
       const newGroup = new Group(groupData);
       newGroup.save((err) => {
         if (err) {
-          console.log(err);
+          return res.status(400).json({
+            message: 'Internal error',
+          });
         }
+
+        const allergiesOptedFor = JSON.parse(req.body.allergiesOptedFor);
 
         User.find({ _id: req.body.userId }, (err, user) => {
           if (err) {
@@ -127,6 +142,62 @@ router.post('/save-group', createGroupFormValidation, authValidationMiddleware,
                 message: 'Group not found',
               });
             }
+
+            allergiesOptedFor.map((allergy) => {
+              const jobData = {
+                jobTime: allergy.alertTime,
+                jobParticipants: JSON.parse(req.body.participants),
+                jobTitle: req.body.groupName,
+                jobAllergyName: allergy.type,
+                jobMotto: req.body.groupMotto,
+                jobDescription: req.body.groupMessage,
+                jobLink: `localhost/groups/verified/${group[0]._id}&${passCode}`,
+              };
+
+              const newCronJobModel = new CronJobModel(jobData);
+              newCronJobModel.save((err) => {
+                if (err) {
+                  return res.status(400).json({
+                    message: 'Internal error',
+                  });
+                }
+
+                let job = new CronJob(new Date(allergy.alertTime), () => {
+                      const mailOptions = {
+                        from: 'valentinfiicode2018@gmail.com',
+                        to: req.body.ownerEmailAddress,
+                        subject: `Allergy Storm Alert From - ${req.body.groupName} ${req.body.groupMotto ?
+                            req.body.groupMotto :
+                            ''}`,
+                        html: `<div style="font-family: Roboto, sans-serif;">${req.body.ownerFullName ?
+                            `<h1>Mr/Mrs ${req.body.ownerFullName},</h1>` :
+                            `<h1>Attention ${req.body.ownerEmailAddress},</h1>`}<p>You have chosen to be mailed now about the following allergy: <i>${allergy.type}</i></p>${req.body.groupMessage ?
+                            `<p>This is the message you wanted to be reminded of: <i>${req.body.groupMessage}</i></p>` :
+                            ''}${req.body.shareLinkExists && !expireTime ?
+                            `<p>If you wish to invite your friends to this group, feel free to do so by using the following link: <i><a href=${shareLink}>${shareLink}</a></i></p>` :
+                            ''}<p>Find more info here: <i><a href=${`localhost/groups/verified/${group[0]._id}&${passCode}`}>Group's page</a></i></p><div style="display: flex; margin-top: 10px;"><a href="/localhost"><img style="width: 200px; height: 128px;" src="http://i.imgur.com/Ua80D2q.png" alt="Allergy Storm"></a></div></div>`,
+                      };
+                      transporter.sendMail(mailOptions, function (err, info) {
+                        if (err)
+                          console.log(err);
+                        else {
+                          console.log(info);
+
+                          CronJobModel.deleteMany({
+                            $and: [
+                              { jobAllergyName: { $eq: allergy.type } },
+                              { jobLink: { $eq: `localhost/groups/verified/${group[0]._id}&${passCode}` } },
+                            ],
+                          }, () => {
+                          });
+                        }
+                      });
+                    }, () => {
+                    },
+                    false);
+                job.start();
+              });
+            });
 
             newParticiapntInGroups.push(group[0]._id);
 
@@ -284,35 +355,89 @@ router.post('/on-enter-group', groupInviteFormValidation, (req, res) => {
           }
 
           Group.updateOne({ shareLink: { $eq: req.body.shareLink } }, {
-            $set: {
-              participants: newParticipants,
-            },
-          }, (err) => {
-            if (err) {
-              return res.status(400).json({
-                message: 'An error has occurred.',
-              });
-            } else {
-              Group.find({ shareLink: req.body.shareLink }, (err, group) => {
+                $set: {
+                  participants: newParticipants,
+                },
+              }, (err) => {
                 if (err) {
                   return res.status(400).json({
-                    message: 'Internal error',
+                    message: 'An error has occurred.',
                   });
-                }
+                } else {
+                  Group.find({ shareLink: req.body.shareLink }, (err, group) => {
+                    if (err) {
+                      return res.status(400).json({
+                        message: 'Internal error',
+                      });
+                    }
 
-                if (group.length === 0) {
-                  return res.status(404).json({
-                    message: 'Group not found',
-                  });
-                }
+                    if (group.length === 0) {
+                      return res.status(404).json({
+                        message: 'Group not found',
+                      });
+                    }
 
-                return res.json({
-                  groupId: group[0]._id,
-                  groupPassCode: group[0].passCode,
-                });
-              });
-            }
-          });
+                    CronJobModel.updateOne({
+                      $and: [
+                        { jobTitle: { $eq: group[0].groupName } },
+                        { jobLink: { $eq: `localhost/groups/verified/${group[0]._id}&${group[0].passCode}` } },
+                      ],
+                    }, {
+                      $set: {
+                        jobParticipants: newParticipants,
+                      },
+                    }, (err) => {
+                      if (err) {
+                        return res.status(400).json({
+                          message: 'An error has occurred.',
+                        });
+                      }
+
+                      group[0].allergiesOptedFor.map((allergy) => {
+                        let job = new CronJob(new Date(allergy.alertTime), () => {
+                              const mailOptions = {
+                                from: 'valentinfiicode2018@gmail.com',
+                                to: req.body.emailAddress,
+                                subject: `Allergy Storm Alert From - ${group[0].groupName} ${group[0].groupMotto ?
+                                    group[0].groupMotto :
+                                    null}`,
+                                html: `<div style="font-family: Roboto, sans-serif;">${req.body.fullName ?
+                                    `<h1>Mr/Mrs ${req.body.fullName},</h1>` :
+                                    `<h1>${req.body.emailAddress},</h1>`}<p>You have chosen to be mailed now about the following allergy: <i>${allergy.type}</i></p>${group[0].groupMessage ?
+                                    `<p>This is the message you wanted to be reminded of: <i>${group[0].groupMessage}</i></p>` :
+                                    null}<p>Find more info here: <i><a href=${`localhost/groups/verified/${group[0]._id}&${group[0].passCode}`}>Group's page</a></i></p></div>`,
+                              };
+                              transporter.sendMail(mailOptions, function (err, info) {
+                                if (err)
+                                  console.log(err);
+                                else {
+                                  console.log(info);
+
+                                  CronJobModel.deleteMany({
+                                    $and: [
+                                      { jobAllergyName: { $eq: allergy.type } },
+                                      { jobLink: { $eq: `localhost/groups/verified/${group[0]._id}&${group[0].passCode}` } },
+                                    ],
+                                  }, () => {
+                                  });
+                                }
+                              });
+                            }, () => {
+                            },
+                            false);
+                        job.start();
+                      });
+
+                      return res.json({
+                        groupId: group[0]._id,
+                        groupPassCode: group[0].passCode,
+                      });
+                    });
+                  })
+                  ;
+                }
+              },
+          );
         });
       } else {
         Group.updateOne({ shareLink: { $eq: req.body.shareLink } }, {
@@ -339,9 +464,62 @@ router.post('/on-enter-group', groupInviteFormValidation, (req, res) => {
               });
             }
 
-            return res.json({
-              groupId: group[0]._id,
-              groupPassCode: group[0].passCode,
+            CronJobModel.updateOne({
+              $and: [
+                { jobTitle: { $eq: group[0].groupName } },
+                { jobLink: { $eq: `localhost/groups/verified/${group[0]._id}&${group[0].passCode}` } },
+              ],
+            }, {
+              $set: {
+                jobParticipants: newParticipants,
+              },
+            }, (err) => {
+              if (err) {
+                console.log(err);
+                return res.status(400).json({
+                  message: 'An error has occurred.',
+                });
+              }
+
+              group[0].allergiesOptedFor.map((allergy) => {
+                let job = new CronJob(new Date(allergy.alertTime), () => {
+                      const mailOptions = {
+                        from: 'valentinfiicode2018@gmail.com',
+                        to: req.body.emailAddress,
+                        subject: `Allergy Storm Alert From - ${group[0].groupName} ${group[0].groupMotto ?
+                            group[0].groupMotto :
+                            ''}`,
+                        html: `<div style="font-family: Roboto, sans-serif;">${req.body.fullName ?
+                            `<h1>Mr/Mrs ${req.body.fullName},</h1>` :
+                            `<h1>Attention ${req.body.emailAddress},</h1>`}<p>You have chosen to be mailed now about the following allergy: <i>${allergy.type}</i></p>${group[0].groupMessage ?
+                            `<p>This is the message you wanted to be reminded of: <i>${group[0].groupMessage}</i></p>` :
+                            ''}<p>Find more info here: <i><a href=${`localhost/groups/verified/${group[0]._id}&${group[0].passCode}`}>Group's page</a></i></p></div>`,
+                      };
+                      transporter.sendMail(mailOptions, function (err, info) {
+                        if (err)
+                          console.log(err);
+                        else {
+                          console.log(info);
+
+                          CronJobModel.deleteMany({
+                            $and: [
+                              { jobAllergyName: { $eq: allergy.type } },
+                              { jobLink: { $eq: `localhost/groups/verified/${group[0]._id}&${group[0].passCode}` } },
+                            ],
+                          }, () => {
+                          });
+                        }
+                      });
+                    }, () => {
+                    },
+                    false);
+                job.start();
+              });
+
+              return res.json({
+                groupId: group[0]._id,
+                groupPassCode: group[0].passCode,
+              });
             });
           });
 

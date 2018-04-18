@@ -147,7 +147,8 @@
   font-weight: 400;
   font-style: italic;
   text-align: center;
-  width: 100%; }
+  width: 100%;
+  margin-bottom: 30px; }
 
 .group-middle {
   width: 100%;

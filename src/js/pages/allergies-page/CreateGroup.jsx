@@ -378,6 +378,7 @@ class CreateGroup extends Component {
                   }}>
               <Button type="primary"
                       size="large"
+                      disabled={this.props.savedGroup}
                       loading={this.props.savingGroup}
                       onClick={this.props.onSaveGroup}>
                 {this.props.savingGroup ?
