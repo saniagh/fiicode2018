@@ -81,26 +81,26 @@ class Footer extends Component {
                   </li>
                   <li className="footer-nav-link"
                       onClick={smoothScroll()}>
-                    <Link to={`/allergies/string-allergy`}>
+                    <Link to={`/allergies/insect-sting-allergy`}>
                       Insect string allergy
                     </Link>
                   </li>
                   <li className="footer-nav-link"
                       onClick={smoothScroll()}>
-                    <Link to={`/allergies/pet-allergy`}>
-                      Pet allergy
+                    <Link to={`/allergies/pet-allergies`}>
+                      Pet allergies
                     </Link>
                   </li>
                   <li className="footer-nav-link"
                       onClick={smoothScroll()}>
-                    <Link to={`/allergies/eye-allergy`}>
-                      Eye allergy
+                    <Link to={`/allergies/eye-allergies`}>
+                      Eye allergies
                     </Link>
                   </li>
                   <li className="footer-nav-link"
                       onClick={smoothScroll()}>
-                    <Link to={`/allergies/drug-allergy`}>
-                      Drug allergy
+                    <Link to={`/allergies/drug-allergies`}>
+                      Drug allergies
                     </Link>
                   </li>
                   <li className="footer-nav-link"

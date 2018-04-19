@@ -74,7 +74,6 @@ class EyeAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Overview
@@ -85,7 +84,6 @@ class EyeAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Eye Allergy Diagnosis
@@ -96,7 +94,6 @@ class EyeAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Eye Allergy Symptoms
@@ -107,7 +104,6 @@ class EyeAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Management and Treatment
@@ -149,7 +145,6 @@ class EyeAllergies extends Component {
                             offset={mediaQuery.matches ? -120 : -50}
                             spy={true}
                             smooth={true}
-                            hashSpy={true}
                             duration={500}
                             isDynamic={true}>
                   &nbsp;click here
@@ -234,7 +229,6 @@ class EyeAllergies extends Component {
                             offset={mediaQuery.matches ? -120 : -50}
                             spy={true}
                             smooth={true}
-                            hashSpy={true}
                             duration={500}
                             isDynamic={true}>
                   &nbsp;click here

@@ -73,7 +73,6 @@ class DustAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Overview
@@ -84,7 +83,6 @@ class DustAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Triggers
@@ -95,7 +93,6 @@ class DustAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Treatment
@@ -106,7 +103,6 @@ class DustAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Management
@@ -117,7 +113,6 @@ class DustAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Medications
@@ -128,7 +123,6 @@ class DustAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     FAQs
@@ -209,7 +203,6 @@ class DustAllergy extends Component {
                             offset={mediaQuery.matches ? -120 : -50}
                             spy={true}
                             smooth={true}
-                            hashSpy={true}
                             duration={500}
                             isDynamic={true}>
                   &nbsp;click here
@@ -250,7 +243,6 @@ class DustAllergy extends Component {
                             offset={mediaQuery.matches ? -120 : -50}
                             spy={true}
                             smooth={true}
-                            hashSpy={true}
                             duration={500}
                             isDynamic={true}>
                   &nbsp;click here

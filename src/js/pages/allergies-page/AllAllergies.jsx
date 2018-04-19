@@ -183,12 +183,12 @@ class AllAllergies extends Component {
 
           <div className="allergies-capsules">
             <div className="allergy-image-container">
-              <Link to={`/allergies/drug-allergy`}>
+              <Link to={`/allergies/drug-allergies`}>
                 <img src="./drug-allergy.jpg" alt=""/>
               </Link>
             </div>
             <h3 className="allergy-header">
-              <Link to={`/allergies/drug-allergy`}>
+              <Link to={`/allergies/drug-allergies`}>
                 Drug Allergies
               </Link>
             </h3>

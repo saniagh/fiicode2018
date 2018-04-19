@@ -16,6 +16,12 @@ import DustAllergyView from './allergies/DustAllergyView.jsx';
 import InsectStingAllergyView from './allergies/InsectStingAllergyView.jsx';
 import PetAllergiesView from './allergies/PetAllergiesView.jsx';
 import EyeAllergiesView from './allergies/EyeAllergiesView.jsx';
+import DrugAllergiesView from './allergies/DrugAllergiesView.jsx';
+import AllergicRhinitisView from './allergies/AllergicRhinitisView.jsx';
+import LatexAllergyView from './allergies/LatexAllergyView.jsx';
+import MoldAllergyView from './allergies/MoldAllergyView.jsx';
+import SinusInfectionView from './allergies/SinusInfectionView.jsx';
+import CockroachAllergyView from './allergies/CockroachAllergyView.jsx';
 
 let createHandlers = function (dispatch) {
   let onConfirmSelection = function (selected, allergies) {
@@ -200,33 +206,34 @@ class AllAllergiesView extends Component {
                                      onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;
           }}/>
           <Route exact path={`/allergies/drug-allergies`} render={() => {
-            return <FoodAllergyView drugAllergies={this.state.drugAllergies}
-                                    onSelect={this.onSelect}
-                                    onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;
+            return <DrugAllergiesView drugAllergies={this.state.drugAllergies}
+                                      onSelect={this.onSelect}
+                                      onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;
           }}/>
           <Route exact path={`/allergies/allergic-rhinitis`} render={() => {
-            return <FoodAllergyView
+            return <AllergicRhinitisView
                 allergicRhinitis={this.state.allergicRhinitis}
                 onSelect={this.onSelect}
                 onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;
           }}/>
           <Route exact path={`/allergies/latex-allergy`} render={() => {
-            return <FoodAllergyView latexAllergy={this.state.latexAllergy}
-                                    onSelect={this.onSelect}
-                                    onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;
+            return <LatexAllergyView latexAllergy={this.state.latexAllergy}
+                                     onSelect={this.onSelect}
+                                     onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;
           }}/>
           <Route exact path={`/allergies/mold-allergy`} render={() => {
-            return <FoodAllergyView moldAllergy={this.state.moldAllergy}
+            return <MoldAllergyView moldAllergy={this.state.moldAllergy}
                                     onSelect={this.onSelect}
                                     onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;
           }}/>
           <Route exact path={`/allergies/sinus-infection`} render={() => {
-            return <FoodAllergyView sinusInfection={this.state.sinusInfection}
-                                    onSelect={this.onSelect}
-                                    onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;
+            return <SinusInfectionView
+                sinusInfection={this.state.sinusInfection}
+                onSelect={this.onSelect}
+                onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;
           }}/>
           <Route exact path={`/allergies/cockroach-allergy`} render={() => {
-            return <FoodAllergyView
+            return <CockroachAllergyView
                 cockroachAllergy={this.state.cockroachAllergy}
                 onSelect={this.onSelect}
                 onConfirmSelectionOneAllergy={this.onConfirmSelectionOneAllergy}/>;

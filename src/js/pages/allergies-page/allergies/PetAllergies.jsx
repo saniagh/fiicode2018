@@ -74,7 +74,6 @@ class PetAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Overview
@@ -85,7 +84,6 @@ class PetAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Cat Allergies
@@ -96,7 +94,6 @@ class PetAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Cat Allergy Symptoms
@@ -107,7 +104,6 @@ class PetAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Diagnosing Cat Allergies
@@ -118,7 +114,6 @@ class PetAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Cat Allergy Management and Treatment
@@ -129,7 +124,6 @@ class PetAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Dog Allergy
@@ -140,7 +134,6 @@ class PetAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Dog Allergy Symptoms
@@ -151,7 +144,6 @@ class PetAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Diagnosing Dog Allergies
@@ -162,7 +154,6 @@ class PetAllergies extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Dog Allergy Management and Treatment
@@ -222,7 +213,6 @@ class PetAllergies extends Component {
                             offset={mediaQuery.matches ? -120 : -50}
                             spy={true}
                             smooth={true}
-                            hashSpy={true}
                             duration={500}
                             isDynamic={true}>
                   &nbsp;click here
@@ -235,7 +225,6 @@ class PetAllergies extends Component {
                             offset={mediaQuery.matches ? -120 : -50}
                             spy={true}
                             smooth={true}
-                            hashSpy={true}
                             duration={500}
                             isDynamic={true}>
                   &nbsp;click here

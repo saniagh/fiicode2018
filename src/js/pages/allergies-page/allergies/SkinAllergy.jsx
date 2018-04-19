@@ -74,7 +74,6 @@ class SkinAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Overview
@@ -85,7 +84,6 @@ class SkinAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Eczema
@@ -96,7 +94,6 @@ class SkinAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Hives
@@ -107,7 +104,6 @@ class SkinAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Contact dermatitis
@@ -118,7 +114,6 @@ class SkinAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     FAQs

@@ -73,7 +73,6 @@ class InsectStingAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Overview
@@ -84,7 +83,6 @@ class InsectStingAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Symptoms
@@ -95,7 +93,6 @@ class InsectStingAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Diagnosing
@@ -106,7 +103,6 @@ class InsectStingAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Management and Treatment
@@ -117,7 +113,6 @@ class InsectStingAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     Fire Ant Sting
@@ -128,7 +123,6 @@ class InsectStingAllergy extends Component {
                               offset={mediaQuery.matches ? -120 : -50}
                               spy={true}
                               smooth={true}
-                              hashSpy={true}
                               duration={500}
                               isDynamic={true}>
                     FAQs
@@ -197,7 +191,6 @@ class InsectStingAllergy extends Component {
                             offset={mediaQuery.matches ? -120 : -50}
                             spy={true}
                             smooth={true}
-                            hashSpy={true}
                             duration={500}
                             isDynamic={true}>
                   &nbsp;click here
@@ -226,7 +219,6 @@ class InsectStingAllergy extends Component {
                             offset={mediaQuery.matches ? -120 : -50}
                             spy={true}
                             smooth={true}
-                            hashSpy={true}
                             duration={500}
                             isDynamic={true}>
                   &nbsp;click here
