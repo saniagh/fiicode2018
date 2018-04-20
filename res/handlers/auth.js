@@ -82,7 +82,7 @@ router.post('/decode-credentials', authValidationMiddleware, (req, res) => {
   return res.json({
     id: req.body.id,
     username: req.body.username,
-    email: req.body.email,
+    email: req.body.tokenEmail,
     isAdmin: req.body.isAdmin,
   });
 });

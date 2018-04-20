@@ -1,5 +1,11 @@
+const Ddos = require('ddos');
+const ddos = new Ddos({ burst: 100, limit: 2000 });
+const compression = require('compression');
 const express = require('express');
 const app = express();
+
+app.use(compression());
+app.use(ddos.express);
 
 const passport = require('passport');
 const dbConfig = require('./db-config');
@@ -38,7 +44,7 @@ let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'valentinfiicode2018@gmail.com',
-    pass: 'ACCOUNT_PASSWORD',
+    pass: 'Fiicode@2018PleaseDoNotAbuse',
   },
 });
 

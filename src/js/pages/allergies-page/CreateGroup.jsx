@@ -15,8 +15,6 @@ const Panel = Collapse.Panel;
 
 import moment from 'moment';
 
-import Recaptcha from 'react-recaptcha';
-
 class CreateGroup extends Component {
 
   constructor(props) {
@@ -339,27 +337,6 @@ class CreateGroup extends Component {
                   </span>
                   </div>
                 </FormItem>
-              </Card>
-            </Card>
-            <Card noHovering={true}
-                  bordered={false}
-                  bodyStyle={{
-                    padding: mediaQuery.matches ?
-                        '20px 0 20px 0' :
-                        '24px 32px 24px 32px',
-                  }}>
-              <Card noHovering={true}
-                    style={{
-                      width: mediaQuery.matches ?
-                          '90vw'
-                          :
-                          900,
-                      margin: '0 auto',
-                    }}
-                    bodyStyle={{
-                      padding: 10,
-                    }}>
-                <Recaptcha sitekey="6Lfg51EUAAAAAM1H-hrlBewTJzDVQSjSrxTrPpD6"/>
               </Card>
             </Card>
             <Card noHovering={true}

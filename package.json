@@ -5,7 +5,8 @@
   "scripts": {
     "bundle": "webpack --watch",
     "start": "nodemon",
-    "bundle-p": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\""
+    "bundle-p": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\"",
+    "cluster-server": "cservice index.js --accessKey valentinFiiCode2018"
   },
   "dependencies": {
     "antd": "^2.13.11",
@@ -13,8 +14,12 @@
     "axios": "^0.17.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
+    "cluster-service": "^2.1.0",
+    "compression": "^1.7.2",
     "cron": "^1.3.0",
+    "ddos": "^0.1.28",
     "express": "^4.16.2",
+    "express-rate-limit": "^2.11.0",
     "jsonwebtoken": "^8.1.0",
     "moment": "^2.22.0",
     "mongoose": "^4.10.8",

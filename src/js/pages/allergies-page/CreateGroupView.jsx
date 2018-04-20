@@ -188,12 +188,21 @@ class CreateGroupView extends Component {
           this.props.history.push(
               `/groups/verified/${res.data.groupId}&${res.data.groupPassCode}`);
         }, 3000);
-      }).catch(() => {
+      }).catch((err) => {
         this.setState({
           savingGroup: false,
           savedGroup: true,
         });
-        notification.error({
+
+        console.log(err.response);
+
+        if (err.response.status == 429) {
+          notification.error({
+            message: 'Too many groups',
+            description: 'You have tried creating too many groups in a short period of time. Please try again in one hour.',
+            duration: 30,
+          });
+        } else notification.error({
           message: 'Oops!',
           description: 'Have you filled all required fields?',
         });

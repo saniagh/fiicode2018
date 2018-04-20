@@ -7,6 +7,17 @@ const uuid = require('uuid');
 const nodemailer = require('nodemailer');
 const CronJob = require('cron').CronJob;
 
+const RateLimit = require('express-rate-limit');
+
+// Only in production
+let createGroupLimiter = new RateLimit({
+  windowMs: 60 * 60 * 1000, // max 3 groups per hour
+  delayAfter: 3,
+  delayMs: 3 * 1000,
+  max: 3,
+  message: 'You have created too many groups in a short period of time.',
+});
+
 const router = new express.Router();
 
 const createGroupFormValidation = require(
@@ -22,35 +33,8 @@ let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'valentinfiicode2018@gmail.com',
-    pass: 'ACCOUNT_PASSWORD',
+    pass: 'Fiicode@2018PleaseDoNotAbuse',
   },
-});
-
-router.post('/delete-me', (req, res) => {
-  const allergies = JSON.parse(req.body.allergies);
-
-  allergies.map((allergy) => {
-    const allergyData = {
-      species: allergy.Species,
-      common: allergy.Common,
-      iuisAllergen: allergy['IUIS Allergen'],
-      type: allergy.Type,
-      group: allergy['Group*'],
-      length: allergy.Length,
-      accession: allergy.Accession,
-      gi: allergy['GI#@'],
-      firstVersion: allergy['First Version'],
-    };
-
-    const newAllergy = new Allergies(allergyData);
-    newAllergy.save((err) => {
-    });
-
-  });
-
-  return res.json({
-    success: true,
-  });
 });
 
 router.get('/get-allergies', (req, res) => {
@@ -65,7 +49,10 @@ router.get('/get-allergies', (req, res) => {
   });
 });
 
-router.post('/save-group', createGroupFormValidation, authValidationMiddleware,
+// Only use createGroupLimiter middleware in production !
+
+router.post('/save-group', createGroupLimiter, createGroupFormValidation,
+    authValidationMiddleware,
     (req, res) => {
       if (!req.body.success)
         return res.status(400).json({
@@ -258,8 +245,6 @@ router.post('/check-share-link-validity', (req, res) => {
         message: 'Group not found',
       });
     }
-
-    console.log(group[0].participants);
 
     if (group[0].shareLinkExpiresAt) {
       let currentTime = Date.now();
@@ -509,41 +494,59 @@ router.post('/on-enter-group', groupInviteFormValidation, (req, res) => {
 
 router.post('/request-share-link', authValidationMiddleware, (req, res) => {
 
-  Group.updateOne({ _id: { $eq: req.body.groupId } }, {
-    $set: {
-      shareLink: 'localhost/group-invite/' + uuid.v4(),
-      shareLinkExpiresAt: Date.now() + 86400000,
-    },
-  }, (err) => {
+  Group.find({ _id: { $eq: req.body.groupId } }, (err, group) => {
     if (err) {
       return res.status(400).json({
-        message: 'An error has occurred.',
+        message: 'Internal error',
       });
     }
 
-    Group.find({ _id: req.body.groupId }, (err, group) => {
+    if (group.length === 0) {
+      return res.status(404).json({
+        message: 'Group not found',
+      });
+    }
+
+    if (group[0].ownerEmailAddress !== req.body.tokenEmail) {
+      return res.status(401).end();
+    }
+
+    Group.updateOne({ _id: { $eq: req.body.groupId } }, {
+      $set: {
+        shareLink: 'localhost/group-invite/' + uuid.v4(),
+        shareLinkExpiresAt: Date.now() + 86400000,
+      },
+    }, (err) => {
       if (err) {
         return res.status(400).json({
-          message: 'Internal error',
+          message: 'An error has occurred.',
         });
       }
 
-      if (group.length === 0) {
-        return res.status(404).json({
-          message: 'Group not found',
-        });
-      }
+      Group.find({ _id: req.body.groupId }, (err, group) => {
+        if (err) {
+          return res.status(400).json({
+            message: 'Internal error',
+          });
+        }
 
-      return res.json({
-        group: group,
-        success: true,
+        if (group.length === 0) {
+          return res.status(404).json({
+            message: 'Group not found',
+          });
+        }
+
+        return res.json({
+          group: group,
+          success: true,
+        });
       });
     });
   });
 });
 
 router.post('/get-my-groups', authValidationMiddleware, (req, res) => {
-  Group.find({ ownerEmailAddress: req.body.email }, (err, groups) => {
+  Group.find({ ownerEmailAddress: req.body.tokenEmail }, (err, groups) => {
     if (err) {
       return res.status(400).json({
         message: 'Internal error',
@@ -555,8 +558,8 @@ router.post('/get-my-groups', authValidationMiddleware, (req, res) => {
     Group.find(
         {
           $and: [
-            { participants: { $elemMatch: { participantEmailAddress: req.body.email } } },
-            { ownerEmailAddress: { $not: { $eq: req.body.email } } },
+            { participants: { $elemMatch: { participantEmailAddress: req.body.tokenEmail } } },
+            { ownerEmailAddress: { $not: { $eq: req.body.tokenEmail } } },
           ],
         },
         (err, groups) => {
@@ -566,7 +569,7 @@ router.post('/get-my-groups', authValidationMiddleware, (req, res) => {
             });
           }
 
-          if (groups.length === 0) {
+          if (groups.length === 0 && ownGroups.length === 0) {
             return res.status(404).json({
               message: 'Group not found',
             });

@@ -50,7 +50,7 @@ class MyGroupsView extends Component {
       }).catch(() => {
         notification.error({
           message: 'Oops!',
-          description: 'Something went wrong.',
+          description: 'No groups found :(',
         });
       });
     }
@@ -58,6 +58,10 @@ class MyGroupsView extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.email && this.state.componentHasEmail === false) {
+      this.setState({
+        componentHasEmail: true,
+        fetchingGroups: true,
+      });
       axios({
         method: 'post',
         url: '/allergies/get-my-groups',
@@ -78,7 +82,7 @@ class MyGroupsView extends Component {
       }).catch(() => {
         notification.error({
           message: 'Oops!',
-          description: 'Something went wrong.',
+          description: 'No groups found :(',
         });
       });
     }
