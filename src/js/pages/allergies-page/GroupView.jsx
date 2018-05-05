@@ -93,6 +93,7 @@ class GroupView extends Component {
       return <Group pathname={this.props.location.pathname}
                     fetchingGroup={this.state.fetchingGroup}
                     ownerEmailAddress={this.props.email}
+                    username={this.props.username}
                     group={this.state.group}
                     onRequestNewShareLink={this.onRequestNewShareLink}/>;
     else return <Card loading={true}
@@ -104,6 +105,7 @@ class GroupView extends Component {
 const mapStateToProps = (state) => {
   return {
     email: state.userReducer.email,
+    username: state.userReducer.username,
   };
 };
 

@@ -112,12 +112,12 @@ MongoDB 3.4.10, git version: 078f28920cb24de0dd479b5ea6c66c644f6326e9
 
 <p>Install MongoDB: <a href="https://docs.mongodb.com/v3.4/installation/">Click here for a guide for v3.4</a></p>
 
-<p>A database dump will can be found in the root folder. 
+<p>A database dump will can be found in the root folder under the name fiicode2018DB/
 
 Import it using mongorestore:
 
 ```shell
-mongorestore -d database_name directory_backup
+mongorestore -d DATABASE_NAME fiicode2018DB/
 ```
 
 </p>

@@ -1,0 +1,44 @@
+.conversational-robot-container {
+  width: 100%;
+  min-height: 500px;
+  display: block;
+  margin-top: 400px;
+  @media (max-width: 1100px) {
+    margin-top: 0;
+  }
+
+}
+
+.conversational-robot-executed-commands-terminal {
+  min-height: 470px;
+  width: 100%;
+  background-color: rgb(48, 10, 36);
+  color: #fff;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.conversational-robot-sender-name {
+  font-weight: 600;
+  color: green;
+}
+
+.conversational-robot-message-text {
+
+}
+
+.conversational-robot-input-field-container {
+  background-color: rgb(48, 10, 36);
+  color: #fff;
+  min-height: 30px;
+}
+
+.conversational-robot-input-field {
+  background-color: rgb(48, 10, 36);
+  color: #fff;
+  min-height: 30px;
+  padding: 10px;
+  font-size: 16px;
+  border: 0;
+  width: 100%
+}

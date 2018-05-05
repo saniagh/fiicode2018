@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import qs from 'qs';
 import { Collapse, Progress, Button, notification, Card } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 const Panel = Collapse.Panel;
@@ -11,6 +13,13 @@ class Group extends Component {
 
     this.state = {
       mainClassName: 'main-container hidden',
+      inputValue: '',
+      terminalReplies: [
+        {
+          sender: 'allergy-ai',
+          message: 'Welcome! I am the Allergy AI and I\'m here to take your command. For a list of possible commands type /help',
+        },
+      ],
     };
   }
 
@@ -30,6 +39,60 @@ class Group extends Component {
       (d.head || d.body).appendChild(s);
     }
   }
+
+  onInputValueChange = (e) => {
+    this.setState({
+      inputValue: e.target.value,
+    });
+  };
+
+  onAppendRobotReply = (value) => {
+    let newTerminalReplies = this.state.terminalReplies;
+
+    newTerminalReplies.push({
+      sender: 'allergy-ai',
+      message: value,
+    });
+  };
+
+  onProcessCommand = (command) => {
+    axios({
+      url: '/robot/handle-command',
+      method: 'post',
+      headers: {
+        'Authorization': `bearer ${Auth.getToken()}`,
+        'Content-type': 'application/x-www-form-urlencoded',
+      },
+    }).then((res) => {
+
+      // here append response
+
+    }).catch((err) => {
+
+    });
+  };
+
+  onAddMessageToTerminal = (value) => {
+    let newTerminalReplies = this.state.terminalReplies;
+
+    newTerminalReplies.push({
+      sender: this.props.username,
+      message: value,
+    });
+
+    this.onProcessCommand(value);
+
+    this.setState({
+      terminalReplies: newTerminalReplies,
+      inputValue: '',
+    });
+  };
+
+  handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.onAddMessageToTerminal(e.target.value);
+    }
+  };
 
   getTimeUntilShareLinkExpires = () => {
     if (this.props.group.shareLinkExpiresAt) {
@@ -225,6 +288,26 @@ class Group extends Component {
                       It will expire in 24 hours.
                     </p>
                   </div>}
+            </div>
+            <div className="conversational-robot-container">
+              <div className="conversational-robot-executed-commands-terminal">
+                <ul>
+                  {this.state.terminalReplies.map((reply, index) => {
+                    return <li key={index}>
+                      <span
+                          className="conversational-robot-sender-name">{reply.sender}@allergy-storm: </span>
+                      <span
+                          className="conversational-robot-message-text">{reply.message}</span>
+                    </li>;
+                  })}
+                </ul>
+              </div>
+              <div className="conversational-robot-input-field-container">
+                <input className="conversational-robot-input-field"
+                       value={this.state.inputValue}
+                       onChange={this.onInputValueChange}
+                       onKeyDown={this.handleKeyPress}/>
+              </div>
             </div>
             {group.allowGroupChat ?
                 <div className="disqus-container">
