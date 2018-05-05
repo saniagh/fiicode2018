@@ -643,6 +643,179 @@ class FoodAllergy extends Component {
         </div>
     );
 
+    let faq = (
+        <div>
+          <Element name="FAQs">
+            <h3 className="allergy-section-title">
+              FAQs
+            </h3>
+          </Element>
+          <h4 className="allergy-section-mid-title">
+            Are there any treatments for food allergy?
+          </h4>
+
+          <span className="allergy-section-paragraph">
+                Currently, avoiding the food you are allergic to is the only way
+                to protect against a reaction. However, there is good news. Two
+                clinical trials of patches are being conducted at major medical
+                centers nationwide. The patches place a small amount of a food
+                allergen into the skin daily, to make you less sensitive to the
+                food. Another trial introduces very small amounts of a food
+                allergen orally in increasing doses to make you less sensitive
+                and less allergic to the food. There is a lot of hope for
+                therapies that will manage food allergies in the future, but
+                none are currently approved by the FDA. Current research is
+                looking at ways to make you less sensitive, but not cure, food
+                allergies.
+              </span>
+
+          <h4 className="allergy-section-mid-title">
+            Do food allergens remain on objects? Can an allergic reaction
+            occur from touching food allergens that remain on things like
+            board games or computer keys?
+          </h4>
+
+          <span className="allergy-section-paragraph">
+                Yes, food allergens can potentially remain on objects if they
+                are not carefully cleaned. Simply touching an object that
+                contains something you are allergic to would either do nothing,
+                or at worst possibly cause a rash on your skin at the site of
+                contact. Without swallowing any of the allergen, it’s highly
+                unlikely you would have any further reaction. If you did, it
+                would be exceptionally rare to develop a severe allergic
+                reaction. In most cases, simply washing the area will stop the
+                rash, and it’s like that no medication would be needed. It is a
+                common myth that you can have a severe reaction from simply
+                touching something without eating the food. Many studies have
+                shown that if you wash your hands well with soap and water, as
+                well as thoroughly clean the surface with detergent, you can
+                effectively remove the allergen. Gel-based alcohol hand
+                sanitizers will NOT remove allergens from your skin .
+              </span>
+
+          <h4 className="allergy-section-mid-title">
+            Can food allergies develop as an adult?
+          </h4>
+
+          <span className="allergy-section-paragraph">
+                Although most food allergies develop when you are a child, they
+                can, rarely, develop as an adult. The most common food allergies
+                for adults are shellfish – both crustaceans and mollusks – as
+                well as tree nuts, peanuts and fish. Most adults with food
+                allergies have had their allergy since they were children. An
+                allergic reaction to a food can sometimes be missed in an adult
+                because symptoms such as vomiting or diarrhea can be mistaken
+                for the flu or food poisoning. Adults don’t always pay close
+                attention to symptoms, which can be dangerous since crucial
+                hints can be missed and place the adult at risk if they continue
+                to eat the food.
+              </span>
+          <span className="allergy-section-paragraph">
+                Oral allergy syndrome is something that can develop in
+                adulthood. Also known as pollen-food syndrome, it is caused by
+                cross-reacting allergens found in both pollen and raw fruits,
+                vegetables, and some tree nuts. This is not a food allergy,
+                though the symptoms occur from food, which can be confusing.
+                This is a pollen allergy. The symptoms of oral allergy syndrome
+                are an itchy mouth or tongue, or swelling of the lips or tongue.
+                Symptoms are generally short-lived because the cross-reacting
+                allergens are quickly digested, and do not involve any other
+                part of the body. These symptoms can help distinguish oral
+                allergy from a true food allergy.
+              </span>
+
+          <h4 className="allergy-section-mid-title">
+            Can you outgrow food allergies?
+          </h4>
+
+          <span className="allergy-section-paragraph">
+                Yes. This is an important point to emphasize. Children
+                generally, but not always, outgrow allergies to milk, egg, soy
+                and wheat. New research indicates that up to 25 percent of
+                children may outgrow their peanut allergy, with slightly fewer
+                expected to outgrow a tree nut allergy. There is no need to
+                assume your child’s food allergy will be lifelong, though for
+                many, this may be the case. If a food allergy develops as an
+                adult, chances are much lower you will outgrow it. Food
+                allergies in adults tend to be lifelong, though there has not
+                been a lot of research in this area.
+              </span>
+
+          <h4 className="allergy-section-mid-title">
+            What are the chances of having a severe reaction to airborne
+            allergens?
+          </h4>
+
+          <span className="allergy-section-paragraph">
+                Virtually none. No study has ever conclusively proven that
+                allergens become airborne and cause symptoms to develop. Outside
+                of a few case reports involving symptoms from fish allergy
+                appearing when someone cooked fish, those with food allergies
+                only have severe reactions after eating the allergic food. Many
+                people with peanut allergy also worry about the dust from
+                peanuts, particularly on airplanes. Most reactions probably
+                happen after touching peanut dust that may be on tray tables or
+                other surfaces. A recent study showed that wiping the surfaces
+                to remove any dust resulted in fewer people reporting reactions
+                during a flight.
+              </span>
+
+          <h4 className="allergy-section-mid-title">
+            How much does it cost to get tested for food allergies?
+          </h4>
+
+          <span className="allergy-section-paragraph">
+                Like most medical procedures, there isn’t a uniform cost for
+                food allergy testing, and insurance coverage varies. Allergy
+                testing is very often not necessary and cannot be used to screen
+                for food allergy. Food allergy testing confirms a diagnosis if
+                you have a history of allergic reactions to a food, and you
+                should only be tested if you have had a reaction. A positive
+                test itself does not make a diagnosis. For this reason, broad
+                panel testing of a lot of different foods should not be
+                performed. If testing is done, it should only be to the food you
+                had a reaction to, and not to other “common” foods. Allergists
+                are specially trained to conduct food allergy testing, so see an
+                allergist if you think you have a food allergy.
+              </span>
+
+          <h4 className="allergy-section-mid-title">
+            What is gluten? How common is gluten allergy?
+          </h4>
+
+          <span className="allergy-section-paragraph">
+                Gluten is a protein found in grains, such as wheat, barley and
+                rye. Some people are allergic to wheat, but that is not the same
+                as a gluten allergy. Gluten allergy is a misleading term
+                commonly confused with wheat allergy, or sometimes celiac
+                disease. There is no such thing as a gluten allergy, but there
+                is a condition called Celiac Disease. Celiac Disease is a
+                digestive condition that is potentially serious if not diagnosed
+                or treated. Symptoms of celiac disease include severe diarrhea
+                after eating gluten-containing products, a rash, severe weight
+                loss or failure to properly gain weight, and abdominal pain. In
+                small children, you may only see poor weight gain and no pain,
+                or other symptoms. Diagnosis of celiac disease can only be made
+                by a board-certified gastroenterologist. It must also be made
+                when the person is eating foods with gluten, as gluten avoidance
+                is the active treatment.
+              </span>
+          <span className="allergy-section-paragraph">
+                A gluten intolerance is not an allergy, and there are currently
+                no tests for accurate diagnosis. People with certain symptoms
+                might need to be tested for celiac disease, but few people with
+                gluten intolerance have celiac disease. Gluten intolerance is
+                not an indication for allergy testing and is not a condition
+                where an allergist could offer help. There are many people who
+                label themselves as “allergic” to gluten, and unfortunately
+                limit their diet without having seen a specialist. People with
+                gluten intolerance should be seen by their primary care provider
+                or referred to a gastroenterologist if there is concern about
+                celiac disease.
+              </span>
+        </div>
+    );
+
     return (
         <div className={this.state.mainClassName}>
           <h1 className="page-header">
@@ -751,174 +924,7 @@ class FoodAllergy extends Component {
               {triggers}
               {diagnosis}
               {management}
-              <Element name="FAQs">
-                <h3 className="allergy-section-title">
-                  FAQs
-                </h3>
-              </Element>
-              <h4 className="allergy-section-mid-title">
-                Are there any treatments for food allergy?
-              </h4>
-
-              <span className="allergy-section-paragraph">
-                Currently, avoiding the food you are allergic to is the only way
-                to protect against a reaction. However, there is good news. Two
-                clinical trials of patches are being conducted at major medical
-                centers nationwide. The patches place a small amount of a food
-                allergen into the skin daily, to make you less sensitive to the
-                food. Another trial introduces very small amounts of a food
-                allergen orally in increasing doses to make you less sensitive
-                and less allergic to the food. There is a lot of hope for
-                therapies that will manage food allergies in the future, but
-                none are currently approved by the FDA. Current research is
-                looking at ways to make you less sensitive, but not cure, food
-                allergies.
-              </span>
-
-              <h4 className="allergy-section-mid-title">
-                Do food allergens remain on objects? Can an allergic reaction
-                occur from touching food allergens that remain on things like
-                board games or computer keys?
-              </h4>
-
-              <span className="allergy-section-paragraph">
-                Yes, food allergens can potentially remain on objects if they
-                are not carefully cleaned. Simply touching an object that
-                contains something you are allergic to would either do nothing,
-                or at worst possibly cause a rash on your skin at the site of
-                contact. Without swallowing any of the allergen, it’s highly
-                unlikely you would have any further reaction. If you did, it
-                would be exceptionally rare to develop a severe allergic
-                reaction. In most cases, simply washing the area will stop the
-                rash, and it’s like that no medication would be needed. It is a
-                common myth that you can have a severe reaction from simply
-                touching something without eating the food. Many studies have
-                shown that if you wash your hands well with soap and water, as
-                well as thoroughly clean the surface with detergent, you can
-                effectively remove the allergen. Gel-based alcohol hand
-                sanitizers will NOT remove allergens from your skin .
-              </span>
-
-              <h4 className="allergy-section-mid-title">
-                Can food allergies develop as an adult?
-              </h4>
-
-              <span className="allergy-section-paragraph">
-                Although most food allergies develop when you are a child, they
-                can, rarely, develop as an adult. The most common food allergies
-                for adults are shellfish – both crustaceans and mollusks – as
-                well as tree nuts, peanuts and fish. Most adults with food
-                allergies have had their allergy since they were children. An
-                allergic reaction to a food can sometimes be missed in an adult
-                because symptoms such as vomiting or diarrhea can be mistaken
-                for the flu or food poisoning. Adults don’t always pay close
-                attention to symptoms, which can be dangerous since crucial
-                hints can be missed and place the adult at risk if they continue
-                to eat the food.
-              </span>
-              <span className="allergy-section-paragraph">
-                Oral allergy syndrome is something that can develop in
-                adulthood. Also known as pollen-food syndrome, it is caused by
-                cross-reacting allergens found in both pollen and raw fruits,
-                vegetables, and some tree nuts. This is not a food allergy,
-                though the symptoms occur from food, which can be confusing.
-                This is a pollen allergy. The symptoms of oral allergy syndrome
-                are an itchy mouth or tongue, or swelling of the lips or tongue.
-                Symptoms are generally short-lived because the cross-reacting
-                allergens are quickly digested, and do not involve any other
-                part of the body. These symptoms can help distinguish oral
-                allergy from a true food allergy.
-              </span>
-
-              <h4 className="allergy-section-mid-title">
-                Can you outgrow food allergies?
-              </h4>
-
-              <span className="allergy-section-paragraph">
-                Yes. This is an important point to emphasize. Children
-                generally, but not always, outgrow allergies to milk, egg, soy
-                and wheat. New research indicates that up to 25 percent of
-                children may outgrow their peanut allergy, with slightly fewer
-                expected to outgrow a tree nut allergy. There is no need to
-                assume your child’s food allergy will be lifelong, though for
-                many, this may be the case. If a food allergy develops as an
-                adult, chances are much lower you will outgrow it. Food
-                allergies in adults tend to be lifelong, though there has not
-                been a lot of research in this area.
-              </span>
-
-              <h4 className="allergy-section-mid-title">
-                What are the chances of having a severe reaction to airborne
-                allergens?
-              </h4>
-
-              <span className="allergy-section-paragraph">
-                Virtually none. No study has ever conclusively proven that
-                allergens become airborne and cause symptoms to develop. Outside
-                of a few case reports involving symptoms from fish allergy
-                appearing when someone cooked fish, those with food allergies
-                only have severe reactions after eating the allergic food. Many
-                people with peanut allergy also worry about the dust from
-                peanuts, particularly on airplanes. Most reactions probably
-                happen after touching peanut dust that may be on tray tables or
-                other surfaces. A recent study showed that wiping the surfaces
-                to remove any dust resulted in fewer people reporting reactions
-                during a flight.
-              </span>
-
-              <h4 className="allergy-section-mid-title">
-                How much does it cost to get tested for food allergies?
-              </h4>
-
-              <span className="allergy-section-paragraph">
-                Like most medical procedures, there isn’t a uniform cost for
-                food allergy testing, and insurance coverage varies. Allergy
-                testing is very often not necessary and cannot be used to screen
-                for food allergy. Food allergy testing confirms a diagnosis if
-                you have a history of allergic reactions to a food, and you
-                should only be tested if you have had a reaction. A positive
-                test itself does not make a diagnosis. For this reason, broad
-                panel testing of a lot of different foods should not be
-                performed. If testing is done, it should only be to the food you
-                had a reaction to, and not to other “common” foods. Allergists
-                are specially trained to conduct food allergy testing, so see an
-                allergist if you think you have a food allergy.
-              </span>
-
-              <h4 className="allergy-section-mid-title">
-                What is gluten? How common is gluten allergy?
-              </h4>
-
-              <span className="allergy-section-paragraph">
-                Gluten is a protein found in grains, such as wheat, barley and
-                rye. Some people are allergic to wheat, but that is not the same
-                as a gluten allergy. Gluten allergy is a misleading term
-                commonly confused with wheat allergy, or sometimes celiac
-                disease. There is no such thing as a gluten allergy, but there
-                is a condition called Celiac Disease. Celiac Disease is a
-                digestive condition that is potentially serious if not diagnosed
-                or treated. Symptoms of celiac disease include severe diarrhea
-                after eating gluten-containing products, a rash, severe weight
-                loss or failure to properly gain weight, and abdominal pain. In
-                small children, you may only see poor weight gain and no pain,
-                or other symptoms. Diagnosis of celiac disease can only be made
-                by a board-certified gastroenterologist. It must also be made
-                when the person is eating foods with gluten, as gluten avoidance
-                is the active treatment.
-              </span>
-              <span className="allergy-section-paragraph">
-                A gluten intolerance is not an allergy, and there are currently
-                no tests for accurate diagnosis. People with certain symptoms
-                might need to be tested for celiac disease, but few people with
-                gluten intolerance have celiac disease. Gluten intolerance is
-                not an indication for allergy testing and is not a condition
-                where an allergist could offer help. There are many people who
-                label themselves as “allergic” to gluten, and unfortunately
-                limit their diet without having seen a specialist. People with
-                gluten intolerance should be seen by their primary care provider
-                or referred to a gastroenterologist if there is concern about
-                celiac disease.
-              </span>
+              {faq}
             </div>
           </div>
           <Modal open={this.state.isModalVisible}
@@ -944,6 +950,12 @@ class FoodAllergy extends Component {
               {
                 hash === 'management' ?
                     management
+                    :
+                    null
+              }
+              {
+                hash === 'faq' ?
+                    faq
                     :
                     null
               }

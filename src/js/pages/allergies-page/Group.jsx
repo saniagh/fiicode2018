@@ -5,6 +5,8 @@ import { Collapse, Progress, Button, notification, Card } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 const Panel = Collapse.Panel;
 
+import Modal from 'react-responsive-modal';
+
 import Auth from '../../modules/Auth.js';
 
 class Group extends Component {
@@ -22,13 +24,31 @@ class Group extends Component {
       ],
       availableCommands: [],
       possibleAllergies: [],
+      previousCommand: '',
+      isModalVisible: false,
     };
   }
 
   updateScroll = () => {
     let element = document.getElementById('terminal');
-    if (element)
-      element.scrollTop = element.scrollHeight;
+    if (element) {
+      setTimeout(() => {
+        element.scrollTop = element.scrollHeight;
+      }, 200);
+    }
+
+  };
+
+  onShowModal = () => {
+    this.setState({
+      isModalVisible: true,
+    });
+  };
+
+  onHideModal = () => {
+    this.setState({
+      isModalVisible: false,
+    });
   };
 
   componentDidMount() {
@@ -97,18 +117,23 @@ class Group extends Component {
     }
 
     if (command) {
+
+      this.setState({
+        previousCommand: command,
+      });
+
       if (command === '/help') {
         let newTerminalReplies = this.state.terminalReplies;
 
         newTerminalReplies.push({
           sender: 'allergy-ai',
-          message: `<p>Available commands:</p>${this.state.availableCommands.map(
+          message: `<p><b>Available commands:</b></p>${this.state.availableCommands.map(
               (command, index) => {
                 if (index + 1 < this.state.availableCommands.length)
                   return `<li>${command}</li>`;
                 else {
 
-                  return `<li>${command}</li><p>Available allergies:</p>${this.state.possibleAllergies.map(
+                  return `<li>${command}</li><p><b>Available allergies ( in parantheses, the available command for each ):</b></p>${this.state.possibleAllergies.map(
                       (allergy) => {
                         return `<li>${allergy}</li>`;
                       }).join('')}`;
@@ -200,8 +225,18 @@ target="_blank">localhost/allergies/${res.data.allergyLinkAnchor}</a></p>`,
   };
 
   handleKeyPress = (e) => {
+
     if (e.key === 'Enter') {
       this.onAddMessageToTerminal(e.target.value);
+    } else if (e.keyCode == 38) {
+      let currentCommand = this.state.inputValue;
+
+      if (this.state.previousCommand) {
+        this.setState({
+          inputValue: this.state.previousCommand,
+          previousCommand: currentCommand,
+        });
+      }
     }
   };
 
@@ -233,6 +268,15 @@ target="_blank">localhost/allergies/${res.data.allergyLinkAnchor}</a></p>`,
                       '40px 0 60px 0' :
                       '50px 32px 100px 32px',
                 }}>
+            {Auth.isUserAuthenticated() ?
+                <Button type="primary"
+                        size="large"
+                        onClick={this.onShowModal}>
+                  Open Allergy Storm AI
+                </Button>
+                :
+                null
+            }
             <h3 className="group-name">
               {group.groupName}
             </h3>
@@ -402,36 +446,7 @@ target="_blank">localhost/allergies/${res.data.allergyLinkAnchor}</a></p>`,
                     </p>
                   </div>}
             </div>
-            {Auth.isUserAuthenticated() ?
-                <div className="conversational-robot-container">
-                  <div
-                      className="conversational-robot-executed-commands-terminal"
-                      id="terminal">
-                    <ul>
-                      {this.state.terminalReplies.map((reply, index) => {
-                        if (index + 1 === this.state.terminalReplies.length) {
-                          this.updateScroll();
-                        }
-                        return <li key={index}>
-                      <span
-                          className="conversational-robot-sender-name">{reply.sender}@allergy-storm: </span>
-                          <span
-                              className="conversational-robot-message-text"
-                              dangerouslySetInnerHTML={{ __html: reply.message, }}></span>
-                        </li>;
-                      })}
-                    </ul>
-                  </div>
-                  <div className="conversational-robot-input-field-container">
-                    <input className="conversational-robot-input-field"
-                           value={this.state.inputValue}
-                           onChange={this.onInputValueChange}
-                           onKeyDown={this.handleKeyPress}/>
-                  </div>
-                </div>
-                :
-                null
-            }
+
             {group.allowGroupChat ?
                 <div className="disqus-container">
                   <div id="disqus_thread"/>
@@ -440,6 +455,39 @@ target="_blank">localhost/allergies/${res.data.allergyLinkAnchor}</a></p>`,
                 null
             }
           </Card>
+          <Modal open={this.state.isModalVisible}
+                 onClose={this.onHideModal}>
+            <Card noHovering={true}
+                  bordered={false}>
+              <div className="conversational-robot-container">
+                <div
+                    className="conversational-robot-executed-commands-terminal"
+                    id="terminal">
+                  <ul>
+                    {this.state.terminalReplies.map((reply, index) => {
+                      if (index + 1 === this.state.terminalReplies.length) {
+                        this.updateScroll();
+                      }
+                      return <li key={index}>
+                      <span
+                          className="conversational-robot-sender-name">{reply.sender}@allergy-storm: </span>
+                        <span
+                            className="conversational-robot-message-text"
+                            dangerouslySetInnerHTML={{ __html: reply.message, }}></span>
+                      </li>;
+                    })}
+                  </ul>
+                </div>
+                <div className="conversational-robot-input-field-container">
+                  <input className="conversational-robot-input-field"
+                         value={this.state.inputValue}
+                         onChange={this.onInputValueChange}
+                         autoFocus
+                         onKeyDown={this.handleKeyPress}/>
+                </div>
+              </div>
+            </Card>
+          </Modal>
         </div>
     );
   }
