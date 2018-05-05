@@ -36,9 +36,17 @@ class DustAllergy extends Component {
     scrollSpy.update();
 
     if (this.props.router.route.location.hash) {
-      this.setState({
-        isModalVisible: true,
-      });
+
+      let availableCommands = ['triggers', 'management', 'faq'];
+
+      let hash = this.props.router.route.location.hash.replace(
+          '#', '');
+
+      if (availableCommands.indexOf(hash) !== -1) {
+        this.setState({
+          isModalVisible: true,
+        });
+      }
     }
   }
 

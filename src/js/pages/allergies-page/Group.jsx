@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import qs from 'qs';
-import { Collapse, Progress, Button, notification, Card } from 'antd';
+import { Collapse, Progress, Button, notification, Card, Spin } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 const Panel = Collapse.Panel;
 
@@ -26,6 +26,7 @@ class Group extends Component {
       possibleAllergies: [],
       previousCommand: '',
       isModalVisible: false,
+      fetchingResponse: false,
     };
   }
 
@@ -147,6 +148,10 @@ class Group extends Component {
 
         this.updateScroll();
       } else {
+
+        this.setState({
+          fetchingResponse: true,
+        });
         axios({
           url: '/robot/handle-command',
           method: 'post',
@@ -158,6 +163,10 @@ class Group extends Component {
             command: command,
           }),
         }).then((res) => {
+
+          this.setState({
+            fetchingResponse: false,
+          });
 
           let newTerminalReplies = this.state.terminalReplies;
 
@@ -173,6 +182,10 @@ target="_blank">localhost/allergies/${res.data.allergyLinkAnchor}</a></p>`,
           });
 
         }).catch((err) => {
+
+          this.setState({
+            fetchingResponse: false,
+          });
 
           if (err.response.data.message === 'Incorrect command.') {
             notification.warning({
@@ -457,36 +470,40 @@ target="_blank">localhost/allergies/${res.data.allergyLinkAnchor}</a></p>`,
           </Card>
           <Modal open={this.state.isModalVisible}
                  onClose={this.onHideModal}>
-            <Card noHovering={true}
-                  bordered={false}>
-              <div className="conversational-robot-container">
-                <div
-                    className="conversational-robot-executed-commands-terminal"
-                    id="terminal">
-                  <ul>
-                    {this.state.terminalReplies.map((reply, index) => {
-                      if (index + 1 === this.state.terminalReplies.length) {
-                        this.updateScroll();
-                      }
-                      return <li key={index}>
+            <Spin tip="Computing..."
+                  size="large"
+                  spinning={this.state.fetchingResponse}>
+              <Card noHovering={true}
+                    bordered={false}>
+                <div className="conversational-robot-container">
+                  <div
+                      className="conversational-robot-executed-commands-terminal"
+                      id="terminal">
+                    <ul>
+                      {this.state.terminalReplies.map((reply, index) => {
+                        if (index + 1 === this.state.terminalReplies.length) {
+                          this.updateScroll();
+                        }
+                        return <li key={index}>
                       <span
                           className="conversational-robot-sender-name">{reply.sender}@allergy-storm: </span>
-                        <span
-                            className="conversational-robot-message-text"
-                            dangerouslySetInnerHTML={{ __html: reply.message, }}></span>
-                      </li>;
-                    })}
-                  </ul>
+                          <span
+                              className="conversational-robot-message-text"
+                              dangerouslySetInnerHTML={{ __html: reply.message, }}></span>
+                        </li>;
+                      })}
+                    </ul>
+                  </div>
+                  <div className="conversational-robot-input-field-container">
+                    <input className="conversational-robot-input-field"
+                           value={this.state.inputValue}
+                           onChange={this.onInputValueChange}
+                           autoFocus
+                           onKeyDown={this.handleKeyPress}/>
+                  </div>
                 </div>
-                <div className="conversational-robot-input-field-container">
-                  <input className="conversational-robot-input-field"
-                         value={this.state.inputValue}
-                         onChange={this.onInputValueChange}
-                         autoFocus
-                         onKeyDown={this.handleKeyPress}/>
-                </div>
-              </div>
-            </Card>
+              </Card>
+            </Spin>
           </Modal>
         </div>
     );

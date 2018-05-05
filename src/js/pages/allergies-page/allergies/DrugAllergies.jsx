@@ -36,6 +36,12 @@ class DrugAllergies extends Component {
     scrollSpy.update();
 
     if (this.props.router.route.location.hash) {
+
+      let availableCommands = ['symptoms', 'diagnosis', 'management', 'faq'];
+
+      let hash = this.props.router.route.location.hash.replace(
+          '#', '');
+
       this.setState({
         isModalVisible: true,
       });
