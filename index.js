@@ -36,6 +36,10 @@ const allergiesRouter = require('./res/handlers/allergies.js');
 
 app.use('/allergies', allergiesRouter);
 
+const robotRouter = require('./res/handlers/robot.js');
+
+app.use('/robot', robotRouter);
+
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/res' + '/index' + '/index.html');
 });

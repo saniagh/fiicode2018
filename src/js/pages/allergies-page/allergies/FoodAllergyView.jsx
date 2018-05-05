@@ -5,13 +5,10 @@ import FoodAllergy from './FoodAllergy.jsx';
 
 class FoodAllergyView extends Component {
 
-  componentDidMount() {
-    this.context.router.history.replace('/allergies/food-allergy');
-  }
-
   render() {
     return <FoodAllergy foodAllergy={this.props.foodAllergy}
                         onSelect={this.props.onSelect}
+                        router={this.context.router}
                         onConfirmSelectionOneAllergy={this.props.onConfirmSelectionOneAllergy}/>;
   }
 }

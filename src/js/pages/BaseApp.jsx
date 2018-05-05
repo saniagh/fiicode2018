@@ -80,7 +80,8 @@ class BaseApp extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.pathname.indexOf('/allergies/') === -1)
+    if (nextProps.location.pathname.indexOf('/allergies/') === -1 &&
+        this.props.location.pathname.indexOf('/allergies/') === -1)
       smoothScroll();
   }
 

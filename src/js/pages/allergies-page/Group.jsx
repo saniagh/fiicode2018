@@ -20,8 +20,16 @@ class Group extends Component {
           message: 'Welcome! I am the Allergy AI and I\'m here to take your command. For a list of possible commands type /help',
         },
       ],
+      availableCommands: [],
+      possibleAllergies: [],
     };
   }
+
+  updateScroll = () => {
+    let element = document.getElementById('terminal');
+    if (element)
+      element.scrollTop = element.scrollHeight;
+  };
 
   componentDidMount() {
     setTimeout(() => {
@@ -38,6 +46,28 @@ class Group extends Component {
       s.setAttribute('data-timestamp', +new Date());
       (d.head || d.body).appendChild(s);
     }
+
+    axios({
+      url: '/robot/handle-command',
+      method: 'post',
+      headers: {
+        'Authorization': `bearer ${Auth.getToken()}`,
+        'Content-type': 'application/x-www-form-urlencoded',
+      },
+      data: qs.stringify({
+        command: '/help',
+      }),
+    }).then((res) => {
+
+      this.setState({
+        availableCommands: res.data.availableCommands,
+        possibleAllergies: res.data.possibleAllergies,
+      });
+
+    }).catch((err) => {
+
+    });
+
   }
 
   onInputValueChange = (e) => {
@@ -56,36 +86,117 @@ class Group extends Component {
   };
 
   onProcessCommand = (command) => {
-    axios({
-      url: '/robot/handle-command',
-      method: 'post',
-      headers: {
-        'Authorization': `bearer ${Auth.getToken()}`,
-        'Content-type': 'application/x-www-form-urlencoded',
-      },
-    }).then((res) => {
 
-      // here append response
+    // XSS protection
+    if (command.indexOf('script') !== -1 || command.indexOf('<') !== -1) {
+      alert('Please don\'t.');
 
-    }).catch((err) => {
+      this.setState({
+        inputValue: '',
+      });
+    }
 
-    });
+    if (command) {
+      if (command === '/help') {
+        let newTerminalReplies = this.state.terminalReplies;
+
+        newTerminalReplies.push({
+          sender: 'allergy-ai',
+          message: `<p>Available commands:</p>${this.state.availableCommands.map(
+              (command, index) => {
+                if (index + 1 < this.state.availableCommands.length)
+                  return `<li>${command}</li>`;
+                else {
+
+                  return `<li>${command}</li><p>Available allergies:</p>${this.state.possibleAllergies.map(
+                      (allergy) => {
+                        return `<li>${allergy}</li>`;
+                      }).join('')}`;
+                }
+              }).join('')}`,
+        });
+
+        this.setState({
+          terminalReplies: newTerminalReplies,
+        });
+
+        this.updateScroll();
+      } else {
+        axios({
+          url: '/robot/handle-command',
+          method: 'post',
+          headers: {
+            'Authorization': `bearer ${Auth.getToken()}`,
+            'Content-type': 'application/x-www-form-urlencoded',
+          },
+          data: qs.stringify({
+            command: command,
+          }),
+        }).then((res) => {
+
+          let newTerminalReplies = this.state.terminalReplies;
+
+          newTerminalReplies.push({
+            sender: 'allergy-ai',
+            message: `<p>Find info here : <a href=${`/allergies/` +
+            res.data.allergyLinkAnchor}
+target="_blank">localhost/allergies/${res.data.allergyLinkAnchor}</a></p>`,
+          });
+
+          this.setState({
+            terminalReplies: newTerminalReplies,
+          });
+
+        }).catch((err) => {
+
+          if (err.response.data.message === 'Incorrect command.') {
+            notification.warning({
+              message: 'Incorrect command',
+              description: 'Type /help to get a list of the available commands.',
+              duration: 6,
+            });
+          } else if (err.response.data.message === 'Incorrect allergy') {
+            notification.warning({
+              message: 'Incorrect allergy name',
+              description: 'This is not a valid name for an allergy. Type /help to get a full list of the available allergies.',
+              duration: 6,
+            });
+          } else if (err.response.data.message ===
+              'Use only the specified commands') {
+            notification.warning({
+              message: 'Use only the specified commands',
+              description: 'You have used an incorrect command. Type /help for a list of the available commands.',
+              duration: 6,
+            });
+          }
+
+          console.log(err.response);
+        });
+      }
+    }
+
+    this.updateScroll();
+
   };
 
   onAddMessageToTerminal = (value) => {
     let newTerminalReplies = this.state.terminalReplies;
 
-    newTerminalReplies.push({
-      sender: this.props.username,
-      message: value,
-    });
+    if (value) {
+      newTerminalReplies.push({
+        sender: this.props.username,
+        message: value,
+      });
 
-    this.onProcessCommand(value);
+      this.onProcessCommand(value);
 
-    this.setState({
-      terminalReplies: newTerminalReplies,
-      inputValue: '',
-    });
+      this.setState({
+        terminalReplies: newTerminalReplies,
+        inputValue: '',
+      });
+
+      this.updateScroll();
+    }
   };
 
   handleKeyPress = (e) => {
@@ -107,6 +218,8 @@ class Group extends Component {
   };
 
   render() {
+
+    this.updateScroll();
 
     const mediaQuery = window.matchMedia('(max-width: 1100px)');
 
@@ -289,26 +402,36 @@ class Group extends Component {
                     </p>
                   </div>}
             </div>
-            <div className="conversational-robot-container">
-              <div className="conversational-robot-executed-commands-terminal">
-                <ul>
-                  {this.state.terminalReplies.map((reply, index) => {
-                    return <li key={index}>
+            {Auth.isUserAuthenticated() ?
+                <div className="conversational-robot-container">
+                  <div
+                      className="conversational-robot-executed-commands-terminal"
+                      id="terminal">
+                    <ul>
+                      {this.state.terminalReplies.map((reply, index) => {
+                        if (index + 1 === this.state.terminalReplies.length) {
+                          this.updateScroll();
+                        }
+                        return <li key={index}>
                       <span
                           className="conversational-robot-sender-name">{reply.sender}@allergy-storm: </span>
-                      <span
-                          className="conversational-robot-message-text">{reply.message}</span>
-                    </li>;
-                  })}
-                </ul>
-              </div>
-              <div className="conversational-robot-input-field-container">
-                <input className="conversational-robot-input-field"
-                       value={this.state.inputValue}
-                       onChange={this.onInputValueChange}
-                       onKeyDown={this.handleKeyPress}/>
-              </div>
-            </div>
+                          <span
+                              className="conversational-robot-message-text"
+                              dangerouslySetInnerHTML={{ __html: reply.message, }}></span>
+                        </li>;
+                      })}
+                    </ul>
+                  </div>
+                  <div className="conversational-robot-input-field-container">
+                    <input className="conversational-robot-input-field"
+                           value={this.state.inputValue}
+                           onChange={this.onInputValueChange}
+                           onKeyDown={this.handleKeyPress}/>
+                  </div>
+                </div>
+                :
+                null
+            }
             {group.allowGroupChat ?
                 <div className="disqus-container">
                   <div id="disqus_thread"/>
