@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import * as Scroll from 'react-scroll';
-import { Anchor, Button } from 'antd';
+import { Anchor, Button, Card } from 'antd';
 const ScrollLink = Scroll.Link;
 const Element = Scroll.Element;
 const Events = Scroll.Events;
 const scrollSpy = Scroll.scrollSpy;
+import Modal from 'react-responsive-modal';
 
 class LatexAllergy extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class LatexAllergy extends Component {
 
     this.state = {
       mainClassName: 'main-container hidden',
+      isModalVisible: false,
     };
   }
 
@@ -31,6 +33,12 @@ class LatexAllergy extends Component {
     });
 
     scrollSpy.update();
+
+    if (this.props.router.route.location.hash) {
+      this.setState({
+        isModalVisible: true,
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -38,13 +46,155 @@ class LatexAllergy extends Component {
     Events.scrollEvent.remove('end');
   }
 
+  onHideModal = () => {
+    this.setState({
+      isModalVisible: false,
+    });
+  };
+
   render() {
+
+    let hash = this.props.router.route.location.hash.replace(
+        '#', '');
 
     const mediaQuery = window.matchMedia('(max-width: 1100px)');
     const iframeQuery = window.matchMedia('(max-width: 620px)');
 
     let selectedArray = [];
     selectedArray.push(this.props.latexAllergy._id);
+
+    let symptoms = (
+        <div>
+          <Element name="Triggers and Symptoms">
+            <h3 className="allergy-section-title">
+              Triggers and Symptoms
+            </h3>
+          </Element>
+          <h4 className="allergy-section-mid-title">
+            What triggers the allergic reaction to latex?
+          </h4>
+          <p className="allergy-section-paragraph">
+            When people with latex allergy come into direct contact with
+            latex, an allergic reaction may follow. Common examples include:
+          </p>
+          <ul className="allergy-section-list">
+            <li>
+              A medical or dental procedure conducted by health care workers
+              wearing natural rubber latex gloves
+            </li>
+            <li>
+              Blowing up a rubber balloon
+            </li>
+          </ul>
+          <h4 className="allergy-section-mid-title">
+            What are latex allergy symptoms?
+          </h4>
+          <p className="allergy-section-paragraph">
+            In most cases, latex allergy develops after many previous
+            exposures to latex. Latex allergy symptoms may include hives,
+            itching, stuffy or runny nose. It can cause asthma symptoms of
+            wheezing, chest tightness and difficulty breathing. Symptoms
+            begin within minutes after exposure to latex containing
+            products. The most severe latex allergy can result in
+            anaphylaxis, a serious allergic reaction involving severe
+            breathing difficulty and/or fall in blood pressure (shock).
+          </p>
+          <p className="allergy-section-paragraph">
+            Allergic skin problems can occur following direct contact with
+            allergic latex proteins in latex glove products. Symptoms may
+            include immediate itching, redness and swelling of skin that
+            touched the item containing latex. These and other latex
+            allergic reactions are less common now. Many hospitals or
+            doctors’ offices have switched to non-latex gloves or low
+            protein latex gloves.
+          </p>
+          <p className="allergy-section-paragraph">
+            A second type of skin allergy called “allergic contact
+            dermatitis” may be caused by chemicals used to manufacture
+            rubber gloves. This dermatitis is recognized by the eczema and
+            blisters on the back of the hands. It resembles a poison ivy
+            rash, and begins 1 to 3 days after wearing rubber gloves.
+          </p>
+          <p className="allergy-section-paragraph">
+            Direct physical contact with latex products is not needed to
+            trigger an allergic reaction. Anaphylaxis and severe asthmatic
+            reactions have been caused by inhaling latex proteins in the air
+            resulting from the powder in the latex glove.
+          </p>
+          <h4 className="allergy-section-mid-title">
+            What foods are potential problems for people with latex allergy?
+          </h4>
+          <p className="allergy-section-paragraph">
+            If you have latex allergy you also can have food allergies. The
+            foods most likely to cause this problem include: apple, avocado,
+            banana, carrot, celery, chestnut, kiwi, melons, papaya, raw
+            potato and tomato.
+          </p>
+        </div>
+    );
+
+    let management = (
+        <div>
+          <Element name="Management and Treatment">
+            <h3 className="allergy-section-title">
+              Management and Treatment
+            </h3>
+          </Element>
+          <h4 className="allergy-section-mid-title">
+            How is latex allergy diagnosed?
+          </h4>
+          <p className="allergy-section-paragraph">
+            Latex allergy is diagnosed by an allergy blood test.
+          </p>
+          <h4 className="allergy-section-mid-title">
+            How is latex allergy treated?
+          </h4>
+          <p className="allergy-section-paragraph">
+            The best treatment for latex allergy is avoidance. If you have
+            severe latex allergy reaction you should:
+          </p>
+          <ul className="allergy-section-list">
+            <li>
+              Wear medical alert identification
+            </li>
+            <li>
+              Carry an epinephrine (adrenaline) auto-injector for emergency
+              treatment
+            </li>
+          </ul>
+          <p className="allergy-section-paragraph">
+            Health care workers with a history of latex sensitivity who must
+            wear gloves should stop wearing latex gloves. Their co-workers
+            should also not use latex gloves, but rather switch to synthetic
+            gloves.
+          </p>
+          <p className="allergy-section-paragraph">
+            Patients with latex allergy are at risk of asthma on exposure to
+            latex-containing aerosols. They should try to avoid areas where
+            powdered latex gloves or other latex products are used.
+          </p>
+          <h4 className="allergy-section-mid-title">
+            How can latex allergy be prevented?
+          </h4>
+          <p className="allergy-section-paragraph">
+            If you have latex allergy you should avoid direct contact with
+            all products and devices that contain latex. Also avoid food
+            that causes an allergic reaction. Latex allergy problems during
+            dental, medical or surgical procedures can be prevented by
+            warning health care providers about latex allergy before any
+            test or treatment. Latex allergic people can receive medical or
+            dental care in a latex-safe area. Hospitals and clinics that use
+            only low protein latex gloves and non-latex gloves have
+            experienced dramatic declines in new cases of latex allergy.
+          </p>
+          <p className="allergy-section-paragraph">
+            Allergists can provide latex-allergic people with information
+            and assistance to help them avoid products which may contain
+            latex. The American Latex Allergy Association also has
+            additional information.
+          </p>
+        </div>
+    );
 
     return (
         <div className={this.state.mainClassName}>
@@ -151,6 +301,7 @@ class LatexAllergy extends Component {
                 for rhinitis treatment. The goal will be to enable you to lead a
                 life that is as normal and symptom-free as possible.
               </p>
+              {symptoms}
               <Element name="What is natural rubber latex?">
                 <h3 className="allergy-section-title">
                   What is natural rubber latex?
@@ -183,131 +334,25 @@ class LatexAllergy extends Component {
                       src="https://www.youtube.com/embed/A2IXz8kt2Eo"
                       frameBorder="0" allow="autoplay; encrypted-media"
                       allowFullScreen></iframe>
-              <Element name="Triggers and Symptoms">
-                <h3 className="allergy-section-title">
-                  Triggers and Symptoms
-                </h3>
-              </Element>
-              <h4 className="allergy-section-mid-title">
-                What triggers the allergic reaction to latex?
-              </h4>
-              <p className="allergy-section-paragraph">
-                When people with latex allergy come into direct contact with
-                latex, an allergic reaction may follow. Common examples include:
-              </p>
-              <ul className="allergy-section-list">
-                <li>
-                  A medical or dental procedure conducted by health care workers
-                  wearing natural rubber latex gloves
-                </li>
-                <li>
-                  Blowing up a rubber balloon
-                </li>
-              </ul>
-              <h4 className="allergy-section-mid-title">
-                What are latex allergy symptoms?
-              </h4>
-              <p className="allergy-section-paragraph">
-                In most cases, latex allergy develops after many previous
-                exposures to latex. Latex allergy symptoms may include hives,
-                itching, stuffy or runny nose. It can cause asthma symptoms of
-                wheezing, chest tightness and difficulty breathing. Symptoms
-                begin within minutes after exposure to latex containing
-                products. The most severe latex allergy can result in
-                anaphylaxis, a serious allergic reaction involving severe
-                breathing difficulty and/or fall in blood pressure (shock).
-              </p>
-              <p className="allergy-section-paragraph">
-                Allergic skin problems can occur following direct contact with
-                allergic latex proteins in latex glove products. Symptoms may
-                include immediate itching, redness and swelling of skin that
-                touched the item containing latex. These and other latex
-                allergic reactions are less common now. Many hospitals or
-                doctors’ offices have switched to non-latex gloves or low
-                protein latex gloves.
-              </p>
-              <p className="allergy-section-paragraph">
-                A second type of skin allergy called “allergic contact
-                dermatitis” may be caused by chemicals used to manufacture
-                rubber gloves. This dermatitis is recognized by the eczema and
-                blisters on the back of the hands. It resembles a poison ivy
-                rash, and begins 1 to 3 days after wearing rubber gloves.
-              </p>
-              <p className="allergy-section-paragraph">
-                Direct physical contact with latex products is not needed to
-                trigger an allergic reaction. Anaphylaxis and severe asthmatic
-                reactions have been caused by inhaling latex proteins in the air
-                resulting from the powder in the latex glove.
-              </p>
-              <h4 className="allergy-section-mid-title">
-                What foods are potential problems for people with latex allergy?
-              </h4>
-              <p className="allergy-section-paragraph">
-                If you have latex allergy you also can have food allergies. The
-                foods most likely to cause this problem include: apple, avocado,
-                banana, carrot, celery, chestnut, kiwi, melons, papaya, raw
-                potato and tomato.
-              </p>
-              <Element name="Management and Treatment">
-                <h3 className="allergy-section-title">
-                  Management and Treatment
-                </h3>
-              </Element>
-              <h4 className="allergy-section-mid-title">
-                How is latex allergy diagnosed?
-              </h4>
-              <p className="allergy-section-paragraph">
-                Latex allergy is diagnosed by an allergy blood test.
-              </p>
-              <h4 className="allergy-section-mid-title">
-                How is latex allergy treated?
-              </h4>
-              <p className="allergy-section-paragraph">
-                The best treatment for latex allergy is avoidance. If you have
-                severe latex allergy reaction you should:
-              </p>
-              <ul className="allergy-section-list">
-                <li>
-                  Wear medical alert identification
-                </li>
-                <li>
-                  Carry an epinephrine (adrenaline) auto-injector for emergency
-                  treatment
-                </li>
-              </ul>
-              <p className="allergy-section-paragraph">
-                Health care workers with a history of latex sensitivity who must
-                wear gloves should stop wearing latex gloves. Their co-workers
-                should also not use latex gloves, but rather switch to synthetic
-                gloves.
-              </p>
-              <p className="allergy-section-paragraph">
-                Patients with latex allergy are at risk of asthma on exposure to
-                latex-containing aerosols. They should try to avoid areas where
-                powdered latex gloves or other latex products are used.
-              </p>
-              <h4 className="allergy-section-mid-title">
-                How can latex allergy be prevented?
-              </h4>
-              <p className="allergy-section-paragraph">
-                If you have latex allergy you should avoid direct contact with
-                all products and devices that contain latex. Also avoid food
-                that causes an allergic reaction. Latex allergy problems during
-                dental, medical or surgical procedures can be prevented by
-                warning health care providers about latex allergy before any
-                test or treatment. Latex allergic people can receive medical or
-                dental care in a latex-safe area. Hospitals and clinics that use
-                only low protein latex gloves and non-latex gloves have
-                experienced dramatic declines in new cases of latex allergy.
-              </p>
-              <p className="allergy-section-paragraph">
-                Allergists can provide latex-allergic people with information
-                and assistance to help them avoid products which may contain
-                latex. The American Latex Allergy Association also has
-                additional information.
-              </p>
+              {management}
             </div>
           </div>
+          <Modal open={this.state.isModalVisible}
+                 onClose={this.onHideModal}>
+            <Card noHovering={true}
+                  bordered={false}>
+              {hash === 'symptoms' || hash === 'triggers' ?
+                  symptoms
+                  :
+                  null
+              }
+              {hash === 'management' ?
+                  management
+                  :
+                  null
+              }
+            </Card>
+          </Modal>
         </div>
     );
   }

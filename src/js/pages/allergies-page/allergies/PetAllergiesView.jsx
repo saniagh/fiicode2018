@@ -5,13 +5,10 @@ import PetAllergies from './PetAllergies.jsx';
 
 class PetAllergiesView extends Component {
 
-  componentDidMount() {
-    this.context.router.history.replace('/allergies/pet-allergies');
-  }
-
   render() {
     return <PetAllergies petAllergies={this.props.petAllergies}
                         onSelect={this.props.onSelect}
+                         router={this.context.router}
                         onConfirmSelectionOneAllergy={this.props.onConfirmSelectionOneAllergy}/>;
   }
 }

@@ -5,13 +5,10 @@ import DustAllergy from './DustAllergy.jsx';
 
 class DustAllergyView extends Component {
 
-  componentDidMount() {
-    this.context.router.history.replace('/allergies/dust-allergy');
-  }
-
   render() {
     return <DustAllergy dustAllergy={this.props.dustAllergy}
                         onSelect={this.props.onSelect}
+                        router={this.context.router}
                         onConfirmSelectionOneAllergy={this.props.onConfirmSelectionOneAllergy}/>;
   }
 }

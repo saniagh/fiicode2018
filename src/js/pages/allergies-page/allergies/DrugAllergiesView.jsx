@@ -5,14 +5,11 @@ import DrugAllergies from './DrugAllergies.jsx';
 
 class DrugAllergiesView extends Component {
 
-  componentDidMount() {
-    this.context.router.history.replace('/allergies/drug-allergies');
-  }
-
   render() {
     return <DrugAllergies drugAllergies={this.props.drugAllergies}
-                         onSelect={this.props.onSelect}
-                         onConfirmSelectionOneAllergy={this.props.onConfirmSelectionOneAllergy}/>;
+                          onSelect={this.props.onSelect}
+                          router={this.context.router}
+                          onConfirmSelectionOneAllergy={this.props.onConfirmSelectionOneAllergy}/>;
   }
 }
 

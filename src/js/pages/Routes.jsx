@@ -7,8 +7,6 @@ import GroupAccessView from './allergies-page/GroupAccessView.jsx';
 import GroupInviteView from './allergies-page/GroupInviteView.jsx';
 import MyGroupsView from './allergies-page/MyGroupsView.jsx';
 
-// TODO a not found page.
-
 const Routes = withRouter(() => {
   return <Switch>
     <Route exact path={`/`} component={HomeView}/>

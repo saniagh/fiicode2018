@@ -16,7 +16,6 @@ class FoodAllergy extends Component {
 
     this.state = {
       mainClassName: 'main-container hidden',
-      currentHash: '',
       isModalVisible: false,
     };
   }
@@ -37,13 +36,7 @@ class FoodAllergy extends Component {
     scrollSpy.update();
 
     if (this.props.router.route.location.hash) {
-
-      let hash = this.props.router.route.location.hash.replace('#', '');
-
-      console.log(hash);
-
       this.setState({
-        currentHash: hash,
         isModalVisible: true,
       });
     }
@@ -928,10 +921,8 @@ class FoodAllergy extends Component {
               </span>
             </div>
           </div>
-          <Modal
-
-              open={this.state.isModalVisible}
-              onClose={this.onHideModal}>
+          <Modal open={this.state.isModalVisible}
+                 onClose={this.onHideModal}>
             <Card noHovering={true}
                   bordered={false}>
               {hash === 'symptoms' ?

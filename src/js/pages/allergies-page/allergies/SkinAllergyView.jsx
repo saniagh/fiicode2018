@@ -5,13 +5,10 @@ import SkinAllergy from './SkinAllergy.jsx';
 
 class SkinAllergyView extends Component {
 
-  componentDidMount() {
-    this.context.router.history.replace('/allergies/skin-allergy');
-  }
-
   render() {
     return <SkinAllergy skinAllergy={this.props.skinAllergy}
                         onSelect={this.props.onSelect}
+                        router={this.context.router}
                         onConfirmSelectionOneAllergy={this.props.onConfirmSelectionOneAllergy}/>;
   }
 }

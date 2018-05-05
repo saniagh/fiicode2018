@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import * as Scroll from 'react-scroll';
-import { Anchor, Button } from 'antd';
+import { Anchor, Button, Card } from 'antd';
 const ScrollLink = Scroll.Link;
 const Element = Scroll.Element;
 const Events = Scroll.Events;
 const scrollSpy = Scroll.scrollSpy;
+
+import Modal from 'react-responsive-modal';
 
 class CockroachAllergy extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ class CockroachAllergy extends Component {
 
     this.state = {
       mainClassName: 'main-container hidden',
+      isModalVisible: false,
     };
   }
 
@@ -31,6 +34,12 @@ class CockroachAllergy extends Component {
     });
 
     scrollSpy.update();
+
+    if (this.props.router.route.location.hash) {
+      this.setState({
+        isModalVisible: true,
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -38,12 +47,106 @@ class CockroachAllergy extends Component {
     Events.scrollEvent.remove('end');
   }
 
+  onHideModal = () => {
+    this.setState({
+      isModalVisible: false,
+    });
+  };
+
   render() {
+
+    let hash = this.props.router.route.location.hash.replace(
+        '#', '');
 
     const mediaQuery = window.matchMedia('(max-width: 1100px)');
 
     let selectedArray = [];
     selectedArray.push(this.props.cockroachAllergy._id);
+
+    let symptoms = (
+        <div>
+          <Element name="Symptoms">
+            <h3 className="allergy-section-title">
+              Symptoms
+            </h3>
+          </Element>
+          <p className="allergy-section-paragraph">
+            Typical cockroach allergy symptoms include:
+          </p>
+          <ul className="allergy-section-list">
+            <li>
+              Coughing
+            </li>
+            <li>
+              Nasal congestion
+            </li>
+            <li>
+              Skin rash
+            </li>
+            <li>
+              Wheezing
+            </li>
+            <li>
+              Ear infection
+            </li>
+            <li>
+              Sinus infection
+            </li>
+          </ul>
+          <p className="allergy-section-paragraph">
+            In many cases with cockroach allergens, these symptoms become
+            chronic, lasting beyond typical seasonal allergies.
+          </p>
+        </div>
+    );
+
+    let management = (
+        <div>
+          <Element name="Management and Treatment">
+            <h3 className="allergy-section-title">
+              Management and Treatment
+            </h3>
+          </Element>
+          <p className="allergy-section-paragraph">
+            If you suspect that you have a cockroach allergy, see an
+            allergist, who can conduct a skin test. This test involves
+            applying a diluted allergen to the surface of your skin, waiting
+            about 15 minutes, then observing to see if there’s a reaction,
+            such as a raised, red and itchy bump.
+          </p>
+          <p className="allergy-section-paragraph">
+            If a reaction develops, your allergist may recommend
+            medications, either prescription or over-the-counter, or allergy
+            shots, which help your body become less sensitive to specific
+            allergens.
+          </p>
+          <p className="allergy-section-paragraph">
+            Of course, one of the best ways to treat and prevent cockroach
+            allergies is to eliminate these insects from your home. Key tips
+            include:
+          </p>
+          <ul className="allergy-section-list">
+            <li>
+              Keep your house clean, including kitchen floors, sinks,
+              counters and stoves.
+            </li>
+            <li>
+              Keep food containers and garbage cans sealed.
+            </li>
+            <li>
+              Fix any leaks that could unknowingly give cockroaches access
+              to water.
+            </li>
+            <li>
+              Avoid piles — of newspapers, laundry, magazines or dirty
+              dishes.
+            </li>
+            <li>
+              Consult a pest control company or exterminator.
+            </li>
+          </ul>
+        </div>
+    );
 
     return (
         <div className={this.state.mainClassName}>
@@ -123,83 +226,26 @@ class CockroachAllergy extends Component {
                 urban areas, that number rises to between 78 and 98 percent of
                 homes
               </p>
-              <Element name="Symptoms">
-                <h3 className="allergy-section-title">
-                  Symptoms
-                </h3>
-              </Element>
-              <p className="allergy-section-paragraph">
-                Typical cockroach allergy symptoms include:
-              </p>
-              <ul className="allergy-section-list">
-                <li>
-                  Coughing
-                </li>
-                <li>
-                  Nasal congestion
-                </li>
-                <li>
-                  Skin rash
-                </li>
-                <li>
-                  Wheezing
-                </li>
-                <li>
-                  Ear infection
-                </li>
-                <li>
-                  Sinus infection
-                </li>
-              </ul>
-              <p className="allergy-section-paragraph">
-                In many cases with cockroach allergens, these symptoms become
-                chronic, lasting beyond typical seasonal allergies.
-              </p>
-              <Element name="Management and Treatment">
-                <h3 className="allergy-section-title">
-                  Management and Treatment
-                </h3>
-              </Element>
-              <p className="allergy-section-paragraph">
-                If you suspect that you have a cockroach allergy, see an
-                allergist, who can conduct a skin test. This test involves
-                applying a diluted allergen to the surface of your skin, waiting
-                about 15 minutes, then observing to see if there’s a reaction,
-                such as a raised, red and itchy bump.
-              </p>
-              <p className="allergy-section-paragraph">
-                If a reaction develops, your allergist may recommend
-                medications, either prescription or over-the-counter, or allergy
-                shots, which help your body become less sensitive to specific
-                allergens.
-              </p>
-              <p className="allergy-section-paragraph">
-                Of course, one of the best ways to treat and prevent cockroach
-                allergies is to eliminate these insects from your home. Key tips
-                include:
-              </p>
-              <ul className="allergy-section-list">
-                <li>
-                  Keep your house clean, including kitchen floors, sinks,
-                  counters and stoves.
-                </li>
-                <li>
-                  Keep food containers and garbage cans sealed.
-                </li>
-                <li>
-                  Fix any leaks that could unknowingly give cockroaches access
-                  to water.
-                </li>
-                <li>
-                  Avoid piles — of newspapers, laundry, magazines or dirty
-                  dishes.
-                </li>
-                <li>
-                  Consult a pest control company or exterminator.
-                </li>
-              </ul>
+              {symptoms}
+              {management}
             </div>
           </div>
+          <Modal open={this.state.isModalVisible}
+                 onClose={this.onHideModal}>
+            <Card noHovering={true}
+                  bordered={false}>
+              {hash === 'symptoms' ?
+                  symptoms
+                  :
+                  null
+              }
+              {hash === 'management' ?
+                  management
+                  :
+                  null
+              }
+            </Card>
+          </Modal>
         </div>
     );
   }
