@@ -147,6 +147,17 @@ class Group extends Component {
         });
 
         this.updateScroll();
+      } else if (command === 'exit') {
+        this.setState({
+          inputValue: '',
+          isModalVisible: false,
+          terminalReplies: [
+            {
+              sender: 'allergy-ai',
+              message: 'Welcome! I am the Allergy AI and I\'m here to take your command. For a list of possible commands type /help',
+            },
+          ],
+        });
       } else {
 
         this.setState({
@@ -220,7 +231,7 @@ target="_blank">localhost/allergies/${res.data.allergyLinkAnchor}</a></p>`,
   onAddMessageToTerminal = (value) => {
     let newTerminalReplies = this.state.terminalReplies;
 
-    if (value) {
+    if (value && value !== 'exit') {
       newTerminalReplies.push({
         sender: this.props.username,
         message: value,
@@ -234,6 +245,8 @@ target="_blank">localhost/allergies/${res.data.allergyLinkAnchor}</a></p>`,
       });
 
       this.updateScroll();
+    } else if (value === 'exit') {
+      this.onProcessCommand(value);
     }
   };
 
